@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能楼宇系统 - GEC©</title>
+<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/default.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/normalize.css">
+<link rel="stylesheet" type="text/css" href="resources/css/demo.css">
+<link rel="stylesheet" type="text/css" href="resources/css/dialog.css">
+<link rel="stylesheet" type="text/css" href="resources/css/dialog-wilma.css">
+<link rel="stylesheet" type="text/css" href="resources/css/mine.css">
+<script src="resources/js/jquery-2.1.1.min.js"></script>
+<script src="resources/js/modernizr.custom.js"></script>
+<script src="resources/js/classie.js"></script>
+<script src="resources/js/dialogFx.js"></script>
+	<script>
+        $(function() {
+
+            setInterval(function () {
+                $.ajax({
+                    type: "POST", //请求方式
+                    url: "refreshData", //请求URL
+                    dataType: "json", //接收数据的类型
+                    success: function (e) { //回调函数
+                        $("#tempAndHumi").find(".val").text(e.temperature + "℃，" + e.humidity + "RH%");
+                    }
+                });
+            }, 400)
+        })
+	</script>
+</head>
+<body>
+	<article class="htmleaf-container">
+		<header class="htmleaf-header">
+			<img src="resources/css/img/logo.png" />
+			<h1><a href="index.html" style="color:black">智慧控制系统管理中心</a></h1>
+		</header>
+		<div class="container">
+			<div id="fire" class="detective">火焰检测<div class="val"> - </div></div>
+			<div id="smoke" class="detective">烟雾检测<div class="val"> - </div></div>
+			<div id="body" class="detective">人体检测<div class="val"> - </div></div>
+			<div id="tempAndHumi" class="detective" style="width:49.5%;">温湿度检测<div class="val"> - </div></div>
+			<div id="illuminance" class="detective" style="width:49.5%;">光照度检测<div class="val"> - </div></div>
+			<div class="my-hr"></div>
+		</div>
+		
+		<div class="container">
+			<div class="control">安防控制<div class="val">关闭</div></div>
+			<div class="control">风扇控制<div class="val">关闭</div></div>
+			<div class="control">灯光控制<div class="val">关闭</div></div>
+			<div data-dialog="somedialog" class="control" style="width:49.5%;line-height:100px;">空调控制</div>
+			<div class="control" style="width:49.5%;cursor:auto;text-align:left;padding-left:1em;">
+				步进电机控制
+				<p style="margin: -1em 0 10px 4em;">设置步数：<input id="setStep" type="text" value="15" style="width:75px;height:23px;color:#000;padding-left:2px;">
+				<input class="my-input-btn" type="button" value="正转">
+				<input class="my-input-btn" type="button" value="反转">
+			</div>
+		</div>
+		<div id="somedialog" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<div class="morph-shape">
+					<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 560 280" preserveAspectRatio="none">
+						<rect x="3" y="3" fill="none" width="556" height="276"/>
+					</svg>
+				</div>
+				<div class="dialog-inner">
+					<h2><strong>空调控制</strong></h2>
+					<h3 class="title">当前温度： <font id="tempVal">25</font> ℃</h3>
+					<button id="btn_timing" data-ripple style="margin-top:16px;">
+					   定时
+					</button>
+					<button id="btn_leaf" data-ripple style="margin-top:16px;">
+					   保鲜
+					</button>
+					<button id="btn_carbon_dioxide" data-ripple style="margin-top:16px;">
+					   增氧
+					</button>
+					<button id="btn_humidify" data-ripple style="margin-top:16px;">
+					   加湿
+					</button>
+					<button id="btn_heat" data-ripple style="margin-top:16px;">
+					   加热
+					</button>
+					<button id="btn_draft" data-ripple style="margin-top:16px;">
+					   抽风
+					</button>
+					<button id="btn_sleep" data-ripple style="margin-top:16px;width:12em;">
+					   睡眠
+					</button>
+					<button id="btn_initial" data-ripple style="margin-top:16px;width:12em;">
+					 25初始
+					</button>
+					<div class="icon-mine-decrease-add" style="margin-right:0.6em;">－</div><div class="icon-mine-decrease-add">＋</div>
+					<p style="margin-top: 30px;font-size: 17px;"></p>
+					<div><button class="action" data-dialog-close>关闭</button></div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- <div class="copyright" style="text-align:center;">Copyright © 2016-2017 粤嵌.All Rights Reserved. 苏ICP备13000566号-1</div> -->
+</body>
+</html>

@@ -1,0 +1,115 @@
+.row [class*="col-"] {
+  cursor: pointer;
+  opacity: 0;
+  -moz-transform: scale(0);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-clip: padding-box !important;
+  border: 5px solid transparent;
+}
+.row [class*="col-"].shown {
+  opacity: 1;
+  -moz-transform: scale(1);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  line-height: 140px;
+  color: #FFF;
+  font-size: 1.4em;
+}
+.row [class*="col-"]:hover {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+[class*="col-"]:nth-child(1) {
+  background: #ED5565;
+}
+[class*="col-"]:nth-child(1):hover {
+  background: #e8273b;
+}
+
+[class*="col-"]:nth-child(2) {
+  background: #FFCE54;
+}
+[class*="col-"]:nth-child(2):hover {
+  background: #ffbf21;
+}
+
+[class*="col-"]:nth-child(3) {
+  background: #48CFAD;
+}
+[class*="col-"]:nth-child(3):hover {
+  background: #2fb593;
+}
+
+[class*="col-"]:nth-child(4) {
+  background: #5D9CEC;
+}
+[class*="col-"]:nth-child(4):hover {
+  background: #2f80e7;
+}
+
+[class*="col-"]:nth-child(5) {
+  background: #FC6E51;
+}
+[class*="col-"]:nth-child(5):hover {
+  background: #fb441f;
+}
+
+[class*="col-"]:nth-child(6) {
+  background: #A0D468;
+}
+[class*="col-"]:nth-child(6):hover {
+  background: #87c940;
+}
+
+[class*="col-"]:nth-child(7) {
+  background: #4FC1E9;
+}
+[class*="col-"]:nth-child(7):hover {
+  background: #22b1e3;
+}
+
+[class*="col-"]:nth-child(8) {
+  background: #EC87C0;
+}
+[class*="col-"]:nth-child(8):hover {
+  background: #e55ba9;
+}
+
+[class*="col-"]:nth-child(9) {
+  background: #AC92EC;
+}
+[class*="col-"]:nth-child(9):hover {
+  background: #8b67e4;
+}
+
+[class*="col-"]:nth-child(10) {
+  background: #CCD1D9;
+}
+[class*="col-"]:nth-child(10):hover {
+  background: #afb7c3;
+}
+
+[class*="col-"]:nth-child(11) {
+  background: #656D78;
+}
+[class*="col-"]:nth-child(11):hover {
+  background: #4e545c;
+}
+
+[class*="col-"]:nth-child(12) {
+  background: #36393c;
+}
+[class*="col-"]:nth-child(12):hover {
+  background: #0c0c0c;
+}

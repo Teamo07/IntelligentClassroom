@@ -1,0 +1,127 @@
+a, a:active {
+	color: #D5D6E2;
+	
+}
+
+a:hover {
+	cursor: pointer;
+	text-decoration: none;
+	color: #18CCFF;
+}
+
+.vertical-hr {
+	position: absolute;
+    height: 255px;
+    border-right: 1px solid #c3c8cd;
+    left: 59em;
+}
+
+.my-hr {
+	float: left;
+	margin-top: 10px;
+    height: 10px;
+    width: 99%;
+    border-top: 1px solid #c3c8cd;
+}
+
+.my-font:hover {
+	cursor: pointer;
+	color: #18CCFF;
+}
+
+.img-logo {
+	float: right;
+	margin-right: 3em;
+}
+
+.back-p {
+	width: 90px;
+	text-align: center;
+	float: right;
+	margin-right: 5em;
+	font-size: 0.9em;
+}
+
+.back-p:hover {
+	cursor: pointer;
+	color: #18CCFF;
+}
+
+.container {
+}
+
+.detective, .control {
+	float: left;
+    width: 33%;
+    height: 100px;
+    
+	border: 2px solid transparent;
+	background: #59f3e6;
+	opacity: 1;
+	transform: scale(1);
+	transition: all 0.3s ease-in-out;
+	background-clip: padding-box !important;
+    color: rgb(255, 255, 255);
+    font-size: 1em;
+    line-height: 50px;
+}
+
+.control {
+	background: #71eccd;
+	cursor: pointer;
+}
+
+.detective:hover, .control:hover {
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	-webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px
+		rgba(0, 0, 0, 0.23);
+	-moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px
+		rgba(0, 0, 0, 0.23);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px
+		rgba(0, 0, 0, 0.23);
+		background: #2fb593;
+}
+
+.detective:hover {
+	background: #33a299;
+	cursor: context-menu;
+}
+
+.val {
+	margin-top: -12px;
+	color: #192ab1;
+}
+
+.icon-mine-decrease-add {
+	float: right;
+    font-size: 69px;
+    margin-top: 0.6em;
+    height: 46px;
+    line-height: 31px;
+}
+
+.icon-mine-decrease-add:hover {
+	cursor: pointer;
+}
+
+.my-input-btn {
+	background: #4fa9f7;
+    width: 5em;
+    height: 3em;
+    line-height: 2em;
+    font-size: 14px;
+    margin-left: 2em;
+}
+
+.copyright {
+	position: absolute;
+	width: 100%;
+	bottom: 1em;
+	text-align: right;
+	padding: 0em 3em 0em 0em;
+	color: #C3C8CD;
+	font-size: 14px;
+}

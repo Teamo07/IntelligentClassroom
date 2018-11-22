@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智慧教室系统 - GEC©</title>
+<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/default.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/mine.css">
+<script src="resources/js/jquery-2.1.1.min.js"></script>
+<script src="resources/js/stopExecutionOnTimeout.js?t=1"></script>
+</head>
+<body>
+	<article class="htmleaf-container">
+		<header class="htmleaf-header">
+			<img src="resources/css/img/logo.png" />
+			<h1>智慧教室系统控制中心<span><a href="http://www.gec-edu.org/" target="_blank">粤嵌股份有限公司 - GEC©</a></span></h1>
+		</header>
+		<div class='container'>
+			<div class='row'>
+				<div id="training" class='col-xs-4'>物联网基础共享远程实训平台</div>
+				<div id="asset" class='col-xs-4'>资产管理统计系统</div>
+				<div id="house" class='col-xs-3'>智慧控制系统</div>
+				<div id="attendance" class='col-xs-3'>智能考勤系统</div>
+				<div id="#" class='col-xs-3'>录播系统</div>
+			</div>
+		</div>
+	</article>
+	<div class="copyright" style="text-align:center">Copyright © 2016-2017 粤嵌.All Rights Reserved. 苏ICP备13000566号-1</div>
+	<script type="text/javascript">
+	(function () {
+		 
+		/* $("#training").on("click",function(){
+			window.location = "training";
+		}); */ 
+		
+		$("#house").on("click",function(){
+			window.location = "house.html";
+		});
+		
+		$("#attendance").on("click",function(){
+			//window.location = "attendance";
+		});
+		
+		$("#asset").on("click",function(){
+			//window.location = "asset";
+		});
+		
+		//页面样式控制
+		var elems = $('.row [class*="col-"]');
+		var setHeight = function (elem) {
+		    $(elem).height(130);
+		};
+		$(window).resize(function () {
+		    $.each(elems, function (key, value) {
+		        setHeight(elems[key]);
+		    });
+		});
+		var i = 0;
+		var animate = function () {
+		    setTimeout(function () {
+		        $(elems[i]).toggleClass('shown');
+		        setHeight(elems[i]);
+		        i++;
+		        if (i < elems.length && i >= 0) {
+		            animate();
+		        }
+		        ;
+		    }, 60);
+		};
+		animate();
+		//end
+	}());
+	</script>
+</body>
+</html>

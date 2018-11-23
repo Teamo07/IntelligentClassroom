@@ -7,11 +7,34 @@
 
   <servlet>
     <servlet-name>RefreshDataServlet</servlet-name>
-    <servlet-class>org.gec.smart.sevrlet.RefreshDataServlet</servlet-class>
+    <servlet-class>org.gec.smart.servlet.RefreshDataServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>RefreshDataServlet</servlet-name>
     <url-pattern>/refreshData</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <!-- Servlet的名字 -->
+    <servlet-name>GetDataServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.GetDataServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <!-- 该名字必须要与上面的名字相同 -->
+    <servlet-name>GetDataServlet</servlet-name>
+    <!-- 配置访问路径 -->
+    <url-pattern>/getData</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <!-- Servlet的名字 -->
+    <servlet-name>ControlDeviceServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.ControlDeviceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <!-- 该名字必须要与上面的名字相同 -->
+    <servlet-name>ControlDeviceServlet</servlet-name>
+    <!-- 配置访问路径 -->
+    <url-pattern>/controlDevice</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

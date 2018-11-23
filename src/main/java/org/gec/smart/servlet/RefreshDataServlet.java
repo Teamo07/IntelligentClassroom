@@ -1,4 +1,4 @@
-package org.gec.smart.sevrlet;
+package org.gec.smart.servlet;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

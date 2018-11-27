@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="backstage" />
+        <module name="client" />
         <module name="IntelligentClassroom-Client" />
       </profile>
     </annotationProcessing>

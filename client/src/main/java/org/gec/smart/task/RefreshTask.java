@@ -62,7 +62,7 @@ public class RefreshTask extends TimerTask {
 				System.out.println("start");
 				long current = System.currentTimeMillis();
 				//暂停800毫秒
-				while(System.currentTimeMillis() - current < 5000){
+				while(System.currentTimeMillis() - current < 3000){
 				}
 				String analysing = TCPUtil.printHexString(receive);
 				System.out.println("end receive ->" + analysing);

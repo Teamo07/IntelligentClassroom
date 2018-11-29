@@ -13,17 +13,7 @@
     <servlet-name>RefreshDataServlet</servlet-name>
     <url-pattern>/refreshData</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <!-- Servlet的名字 -->
-    <servlet-name>GetDataServlet</servlet-name>
-    <servlet-class>org.gec.smart.servlet.GetDataServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <!-- 该名字必须要与上面的名字相同 -->
-    <servlet-name>GetDataServlet</servlet-name>
-    <!-- 配置访问路径 -->
-    <url-pattern>/getData</url-pattern>
-  </servlet-mapping>
+
 
   <servlet>
     <!-- Servlet的名字 -->

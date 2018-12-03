@@ -11,4 +11,12 @@ public interface IUserService {
 	void addUser(User user);
 
     List<User> findUser(User user);
+
+	/**
+	 * 根据用户名和密码查找用户
+	 * @param username
+	 * @param userpass
+	 * @return
+	 */
+	User findUsers(String username, String userpass);
 }

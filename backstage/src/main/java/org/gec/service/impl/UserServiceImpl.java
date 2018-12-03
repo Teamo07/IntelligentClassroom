@@ -6,7 +6,9 @@ import org.gec.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -27,5 +29,14 @@ public class UserServiceImpl implements IUserService {
 	public List<User> findUser(User user) {
 		return userMapper.findUser(user);
 	}
+
+	@Override
+	public User findUsers(String username, String userpass) {
+		Map map = new HashMap();
+		map.put("username", username);
+		map.put("userpass", userpass);
+		return userMapper.getUser(map);
+	}
+
 
 }

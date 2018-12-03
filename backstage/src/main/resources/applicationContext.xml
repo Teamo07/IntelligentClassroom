@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
 	<!-- 启用注解 -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven  />
 	<!-- 扫描指定包下有储存类型的类,将这些类创建对象并加到Spring容器里面 -->
 	<context:component-scan base-package="org.gec" />
 	<!-- 指定哪些资源不需要经过SpringMVC的核心控制器处理 -->
@@ -28,9 +28,9 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://localhost:3306/test"></property>
-		<property name="username" value="root"></property>
-		<property name="password" value="root"></property>
+		<property name="url" value="jdbc:mysql://47.106.10.184:3306/IntelligentClassroom"></property>
+		<property name="username" value="team"></property>
+		<property name="password" value="Work1150+"></property>
 	</bean>
 	<!-- 配置Session工厂 -->
 	<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

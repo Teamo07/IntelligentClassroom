@@ -53,7 +53,7 @@
 				<div id="signup_forms" class="signup_forms clearfix">
 					<form class="signup_form_form" id="loginForm" method="post">
 						<div class="form_row first_row">
-							<label for="signup_email">请输入用户名</label> <input type="text"
+							<label for="signup_name">请输入用户名</label> <input type="text"
 								id="name" name="name" placeholder="请输入用户名" id="signup_name">
 						</div>
 						<div class="form_row">

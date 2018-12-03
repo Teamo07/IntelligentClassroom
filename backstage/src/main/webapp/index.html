@@ -9,6 +9,27 @@
     <script type="text/javascript" src="adminjs/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="adminjs/jquery.easyui.1.2.6.min.js"></script>
 	<script type="text/javascript" src='adminjs/index.js'> </script>
+    <script type="application/javascript">
+        //获取登录的用户名
+        $(function() {
+            $.post('sys/getName.do', function(rt) {
+                if (rt.status) {
+                    $("#user").html(rt.message);
+                } else {
+                    alert(rt.message);
+                    location = 'login.html';
+                }
+            }, "json");
+        });
+        //登出
+        function logout() {
+            $.post('sys/logout.do', function(rt) {
+                if (rt.status) {
+                    location = 'login.html';
+                }
+            }, "json");
+        }
+    </script>
 </head>
 <body class="easyui-layout" style="overflow-y: hidden"  fit="true"   scroll="no">
 <noscript>

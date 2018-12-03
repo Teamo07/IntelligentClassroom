@@ -3,8 +3,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>智能教室后台管理系统</title>
-
 <link rel="stylesheet" type="text/css" href="css/login.css" />
+<script type="application/javascript">
+    function login() {
+        var data = getFormData("loginform");
+        console.log(data);
+        $.post('sys/login.do', data, function(rt) {
+            if (rt.status) {
+                location = 'index.html';
+            } else {
+                alert(rt.message);
+            }
+        }, "json");
+    }
+</script>
 </head>
 <body>
 	<div class='signup_container'>
@@ -20,7 +32,7 @@
 				<div id="signup_forms" class="signup_forms clearfix">
 					<form class="signup_form_form" id="loginform" method="post">
 						<div class="form_row first_row">
-							<label for="signup_email">请输入用户名</label> <input type="text"
+							<label for="signup_name">请输入用户名</label> <input type="text"
 								name="" placeholder="请输入用户名" id="signup_name">
 						</div>
 						<div class="form_row">
@@ -33,7 +45,7 @@
 			</span>
 		</div>
 		<div class="login-btn-set">
-			<div class='rem'></>记住我</div>
+			<div class='rem'>记住我</div>
 			<a href='javascript:login()' class='login-btn'></a>
 		</div>
 	</div>

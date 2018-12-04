@@ -4,9 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>智能教室后台管理系统</title>
 <link rel="stylesheet" type="text/css" href="css/login.css" />
+	<script type="text/javascript" src='adminjs/jquery.min.js'> </script>
+	<script type="text/javascript" src='adminjs/form.js'> </script>
 <script type="application/javascript">
-    function login() {
-        var data = getFormData("loginform");
+
+	function login() {
+        //var data = getFormData("loginform");
+        var data={
+            username:'scott',
+            password:'Ruanjian1150+-.',
+        }
         console.log(data);
         $.post('sys/login.do', data, function(rt) {
             if (rt.status) {

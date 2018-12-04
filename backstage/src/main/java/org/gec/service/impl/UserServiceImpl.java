@@ -39,5 +39,8 @@ public class UserServiceImpl implements IUserService {
 		return userMapper.getUser(map);
 	}
 
-
+	@Override
+	public User editPass(User user) {
+		return userMapper.editPass(user);
+	}
 }

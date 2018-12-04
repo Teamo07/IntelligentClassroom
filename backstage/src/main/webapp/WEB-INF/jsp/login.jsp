@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>智能教室后台管理系统</title>
 
-<link rel="stylesheet" type="text/css" href="css/login.css" />
+<link rel="stylesheet" type="text/css" href="../../css/login.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/adminjs/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/adminjs/jquery.form.js"></script>
 <title>Insert title here</title>
@@ -23,7 +23,7 @@
                 async: true,
                 success: function(json){
                     if (json.status == true) { //如果登录成功，那么就跳转到网站首页
-                        location = "index.jsp";
+                        location = "WEB-INF/jsp/index.jsp";
                     } else { 	//如果登录失败，那么就提示用户
                         $("input[name='pass']").val("");
                         alert(json.message);

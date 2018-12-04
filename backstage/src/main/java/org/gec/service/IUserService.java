@@ -1,6 +1,6 @@
 package org.gec.service;
 
-import org.gec.domain.User;
+import org.gec.model.User;
 
 import java.util.List;
 

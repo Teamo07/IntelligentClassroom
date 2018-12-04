@@ -1,4 +1,4 @@
-package org.gec.domain;
+package org.gec.model;
 
 
 /*

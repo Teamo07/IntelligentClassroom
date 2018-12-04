@@ -17,7 +17,7 @@
         console.log(data);
         $.post('sys/login.do', data, function(rt) {
             if (rt.status) {
-                location = 'index.html';
+                location = 'html/index.html';
             } else {
                 alert(rt.message);
             }

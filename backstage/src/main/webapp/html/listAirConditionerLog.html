@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <link href="../css/default.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../adminjs/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../adminjs/themes/icon.css" />
+    <script type="text/javascript" src="../adminjs/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../adminjs/jquery.easyui.1.2.6.min.js"></script>
+</head>
+<body>
+<script type="application/javascript">
+    $(function() {
+        $('#tt').datagrid({
+            url:'../admin/getAirConditionerLog.do',
+            fit:true,
+            columns:[[
+                {field:'id', title:'编号', width:80, align:'center'},
+                {field:'oxygen', title:'增氧',width:80, align:'center'},
+                {field:'humidification', title:'加湿',width:80, align:'center'},
+                {field:'heating', title:'加热',width:80, align:'center'},
+                {field:'aeration', title:'抽风',width:80, align:'center'},
+                {field:'sleeping', title:'睡眠',width:80, align:'center'},
+                {field:'timer', title:'定时',width:80, align:'center'},
+                {field:'freshness', title:'保湿',width:80, align:'center'},
+                {field:'temperature', title:'温度',width:80, align:'center'},
+                {field:'deviceno', title:'设备号',width:80, align:'center'},
+                {field:'createtime', title:'操作时间',width:80, align:'center'}
+            ]],
+            pagination: true, //是否显示分页栏，true就显示，默认为false，不显示
+            pageSize: '20', //默认每页显示5条记录
+            pageList: [20, 30, 50, 100] //让用户选择每页显示的记录数
+        });
+    });
+</script>
+<table id="tt"></table>
+</body>
+</html>

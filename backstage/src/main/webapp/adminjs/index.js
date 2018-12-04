@@ -5,21 +5,29 @@ window.onload = function(){
 var onlyOpenTitle="欢迎使用";//不允许关闭的标签的标题
 
 var _menus={
-		"icon":"icon-sys",
-		"menuid":"0",
-		"menuname":"系统菜单",
-		"menus":
-			[
-			 	{
-			 		"icon":"icon-sys","menuid":"100","menuname":"一级菜单","menus":
-					[
-						{"icon":"icon-sys","menuid":"101","menuname":"二级菜单","url":""}	,
-						{"icon":"icon-sys","menuid":"102","menuname":"二级菜单","url":""}						
-					]
-			 	}
-			 	
-			 ]
-		};
+    "icon":"icon-sys",
+    "menuid":"0",
+    "menuname":"系统菜单",
+    "menus":
+        [
+            {
+                "icon":"icon-sys","menuid":"100","menuname":"系统管理","menus":
+                    [
+                        {"icon":"icon-sys","menuid":"101","menuname":"监测数据查询","url":"listEnv.html"},
+                        {"icon":"icon-sys","menuid":"102","menuname":"考勤管理","url":""},
+                        {"icon":"icon-sys","menuid":"103","menuname":"资产管理","url":""}
+                    ]
+            },
+            {
+                "icon":"icon-sys","menuid":"200","menuname":"日志管理","menus":
+                    [
+                        {"icon":"icon-sys","menuid":"201","menuname":"灯光控制","url":"listLightLog.html"},
+                        {"icon":"icon-sys","menuid":"202","menuname":"空调控制","url":"listAirConditionerLog.html"}
+                    ]
+            }
+
+        ]
+};
 
 
 

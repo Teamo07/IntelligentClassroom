@@ -13,23 +13,41 @@
 <script type="application/javascript">
     $(function() {
         $('#tt').datagrid({
-            url:'../admin/getEvn.do',
-            fit:true,
-            columns:[[
-                {field:'id', title:'编号', width:80, align:'center'},
-                {field:'body', title:'有人',width:80, align:'center'},
-                {field:'humidity', title:'湿度',width:80, align:'center'},
-                {field:'fire', title:'火焰',width:80, align:'center'},
-                {field:'smoke', title:'烟雾',width:80, align:'center'},
-                {field:'temperature', title:'温度',width:80, align:'center'},
-                {field:'illuminance', title:'灯光',width:80, align:'center'},
-                {field:'createtime', title:'采集时间',width:80, align:'center'}
+            url: '../admin/getEnv.do',
+            fit: false,
+            columns: [[
+                {field: 'id', title: '编号', width: 280, align: 'center'},
+                {field: 'body', title: '有人', width: 80, align: 'center'},
+                {
+                    field: 'humidity', title: '湿度', width: 80, align: 'center',
+                    formatter: function (value, row, index) {
+                        return value + "RH%";
+                    }
+                },
+                {field: 'fire', title: '火焰', width: 80, align: 'center'},
+                {field: 'smoke', title: '烟雾', width: 80, align: 'center'},
+                {
+                    field: 'temperature', title: '温度', width: 80, align: 'center',
+                    formatter: function (value, row, index) {
+                        return value + "℃";
+                    }
+                },
+                {field: 'illuminance', title: '灯光', width: 80, align: 'center'},
+                {
+                    field: 'createtime', title: '采集时间', width: 180, align: 'center',
+                    formatter: function (value, row, index) {
+                        var d = new Date(value);
+                        return d.getFullYear() + "年" + d.getMonth()
+                            + "月" + d.getDate() + "日 " + d.getHours()
+                            + ":" + d.getMinutes() + ":" + d.getSeconds();
+                    }
+                }
             ]],
             pagination: true, //是否显示分页栏，true就显示，默认为false，不显示
             pageSize: '20', //默认每页显示5条记录
             pageList: [20, 30, 50, 100] //让用户选择每页显示的记录数
         });
-    });
+    })
 </script>
 <table id="tt"></table>
 </body>

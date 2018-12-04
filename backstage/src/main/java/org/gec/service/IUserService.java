@@ -19,4 +19,6 @@ public interface IUserService {
 	 * @return
 	 */
 	User findUsers(String username, String userpass);
+
+    User editPass(User word);
 }

@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
+
 
 /**
  * @author:李远文
@@ -21,11 +23,8 @@ public class SysController extends BaseController{
 
     @RequestMapping(path="/login.do", produces="application/json;charset=utf-8")
     public Map login(String username, String password, HttpSession session) {
-        System.out.println("111111111111111111111111111");
         User user = userService.findUsers(username, password);
-        System.out.println("222222222222222222222222222");
         if (user != null) {
-            System.out.println("44444444444444444444444444444444");
             session.setAttribute("user", user);
             return ajaxReturn(true, "登录成功");
         }
@@ -48,4 +47,17 @@ public class SysController extends BaseController{
         return ajaxReturn(true, "");
     }
 
+
+    @RequestMapping(path="/editpass.do", produces="application/json;charset=utf-8")
+    public Map editPass(HttpSession session,String word) {
+        User user= (User) session.getAttribute("user");
+        User resultUser = userService.findUsers(user.getName(), user.getPass());
+        if(resultUser==null){
+            return ajaxReturn(false, "无法获取当前用户");
+        }
+        resultUser.setPass(word);
+        User newUser = userService.editPass(resultUser);
+
+        return ajaxReturn(true, "修改成功");
+    }
 }

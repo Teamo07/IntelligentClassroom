@@ -310,7 +310,7 @@ function openPwd() {
         resizable:false
     });
 }
-//关闭登录窗口
+//关闭修改密码窗口
 function closePwd() {
     $('#w').window('close');
 }
@@ -319,8 +319,8 @@ function closePwd() {
 
 //修改密码
 function serverLogin() {
-    var $newpass = $('#txtNewPass');
-    var $rePass = $('#txtRePass');
+    var $newpass = $('#newPass');
+    var $rePass = $('#rePass');
 
     if ($newpass.val() == '') {
         msgShow('系统提示', '请输入密码！', 'warning');
@@ -335,14 +335,18 @@ function serverLogin() {
         msgShow('系统提示', '两次密码不一至！请重新输入', 'warning');
         return false;
     }
-
-    $.post('/ajax/editpassword.ashx?newpass=' + $newpass.val(), function(msg) {
-        msgShow('系统提示', '恭喜，密码修改成功！<br>您的新密码为：' + msg, 'info');
-        $newpass.val('');
-        $rePass.val('');
-        close();
-    })
-    
+    var data = {
+        word:$newpass.val(),
+    };
+    $.post('../sys/editpass.do',data, function(rt) {
+        if (rt.status) {
+            msgShow('系统提示', '恭喜，密码修改成功！<br>您的新密码为：' + rt.message, 'info');
+            closePwd();
+        } else {
+            alert(rt.message);
+            location = 'login.html';
+        }
+    }, "json");
 }
 
 $(function() {

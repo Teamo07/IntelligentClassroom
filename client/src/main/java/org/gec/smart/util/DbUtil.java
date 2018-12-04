@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class DbUtil {
 
     //注意：一个应用程序只需要一个数据库连接池就足够了。
-    static ComboPooledDataSource ds = new ComboPooledDataSource();
+    static ComboPooledDataSource ds = new ComboPooledDataSource("mysql");
 
     /**
      * 获取数据库的连接
@@ -18,6 +18,7 @@ public class DbUtil {
      * @throws SQLException
      */
     public static Connection getConnection() throws SQLException {
+        System.out.println("正在获得数据库连接池Connection。。。。。");
         return ds.getConnection();
     }
 

@@ -99,6 +99,7 @@ public class ControlDeviceServlet extends HttpServlet {
 		try {
 			//获取数据库连接
 			conn = DbUtil.getConnection();
+			System.out.println("灯光控制：成功获得数据库连接");
 			String sql = "insert into light_log values(?, ?, ?, ?)";
 			//创建Statement对象
 			pstmt = conn.prepareStatement(sql);

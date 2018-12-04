@@ -5,16 +5,16 @@ import java.util.Date;
 public class AirConditionerLog {
 
     private String id; //编号
-    private static Boolean oxygen = false; // 增氧
-    private static Boolean humidification = false; // 加湿
-    private static Boolean heating = false; // 加热
-    private static Boolean aeration = false; // 抽风
-    private static Boolean sleeping = false; // 睡眠
-    private static Integer timer = 0; // 定时
-    private static Boolean freshness = false; // 保鲜
-    private static Integer temperature = 25; // 温度
-    private static Integer deviceNo = 1; // 设备编号，默认为1
-    private static Date createtime; //操作时间
+    private  Boolean oxygen = false; // 增氧
+    private  Boolean humidification = false; // 加湿
+    private  Boolean heating = false; // 加热
+    private  Boolean aeration = false; // 抽风
+    private  Boolean sleeping = false; // 睡眠
+    private  Integer timer = 0; // 定时
+    private  Boolean freshness = false; // 保鲜
+    private  Integer temperature = 25; // 温度
+    private  Integer deviceNo = 1; // 设备编号，默认为1
+    private  Date createtime; //操作时间、
 
     public String getId() {
         return id;
@@ -24,84 +24,83 @@ public class AirConditionerLog {
         this.id = id;
     }
 
-    public static Boolean getOxygen() {
+    public Boolean getOxygen() {
         return oxygen;
     }
 
-    public static void setOxygen(Boolean oxygen) {
-        AirConditionerLog.oxygen = oxygen;
+    public void setOxygen(Boolean oxygen) {
+        this.oxygen = oxygen;
     }
 
-    public static Boolean getHumidification() {
+    public Boolean getHumidification() {
         return humidification;
     }
 
-    public static void setHumidification(Boolean humidification) {
-        AirConditionerLog.humidification = humidification;
+    public void setHumidification(Boolean humidification) {
+        this.humidification = humidification;
     }
 
-    public static Boolean getHeating() {
+    public Boolean getHeating() {
         return heating;
     }
 
-    public static void setHeating(Boolean heating) {
-        AirConditionerLog.heating = heating;
+    public void setHeating(Boolean heating) {
+        this.heating = heating;
     }
 
-    public static Boolean getAeration() {
+    public Boolean getAeration() {
         return aeration;
     }
 
-    public static void setAeration(Boolean aeration) {
-        AirConditionerLog.aeration = aeration;
+    public void setAeration(Boolean aeration) {
+        this.aeration = aeration;
     }
 
-    public static Boolean getSleeping() {
+    public Boolean getSleeping() {
         return sleeping;
     }
 
-    public static void setSleeping(Boolean sleeping) {
-        AirConditionerLog.sleeping = sleeping;
+    public void setSleeping(Boolean sleeping) {
+        this.sleeping = sleeping;
     }
 
-    public static Integer getTimer() {
+    public Integer getTimer() {
         return timer;
     }
 
-    public static void setTimer(Integer timer) {
-        AirConditionerLog.timer = timer;
+    public void setTimer(Integer timer) {
+        this.timer = timer;
     }
 
-    public static Boolean getFreshness() {
+    public Boolean getFreshness() {
         return freshness;
     }
 
-    public static void setFreshness(Boolean freshness) {
-        AirConditionerLog.freshness = freshness;
+    public void setFreshness(Boolean freshness) {
+        this.freshness = freshness;
     }
 
-    public static Integer getTemperature() {
+    public Integer getTemperature() {
         return temperature;
     }
 
-    public static void setTemperature(Integer temperature) {
-        AirConditionerLog.temperature = temperature;
+    public void setTemperature(Integer temperature) {
+        this.temperature = temperature;
     }
 
-    public static Integer getDeviceNo() {
+    public Integer getDeviceNo() {
         return deviceNo;
     }
 
-    public static void setDeviceNo(Integer deviceNo) {
-        AirConditionerLog.deviceNo = deviceNo;
+    public void setDeviceNo(Integer deviceNo) {
+        this.deviceNo = deviceNo;
     }
 
-    public static Date getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
-    public static void setCreatetime(Date createtime) {
-        AirConditionerLog.createtime = createtime;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
-
 }

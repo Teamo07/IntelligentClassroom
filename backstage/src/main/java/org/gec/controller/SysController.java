@@ -49,15 +49,17 @@ public class SysController extends BaseController{
 
 
     @RequestMapping(path="/editpass.do", produces="application/json;charset=utf-8")
-    public Map editPass(HttpSession session,String word) {
+    public Map editPass(String word,HttpSession session) {
         User user= (User) session.getAttribute("user");
         User resultUser = userService.findUsers(user.getName(), user.getPass());
         if(resultUser==null){
             return ajaxReturn(false, "无法获取当前用户");
         }
         resultUser.setPass(word);
-        User newUser = userService.editPass(resultUser);
-
-        return ajaxReturn(true, "修改成功");
+        int i = userService.editPass(resultUser);
+        if(i==1){
+            return ajaxReturn(true, word);
+        }
+        return ajaxReturn(false, "修改失败");
     }
 }

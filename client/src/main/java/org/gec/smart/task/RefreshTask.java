@@ -66,12 +66,14 @@ public class RefreshTask extends TimerTask {
 				}
 				System.out.println("start");
 				long current = System.currentTimeMillis();
-				//暂停800毫秒
+				//暂停3秒
 				while(System.currentTimeMillis() - current < 3000){
 				}
 				String analysing = TCPUtil.printHexString(receive);
 				System.out.println("end receive ->" + analysing);
 				analysis(analysing);
+				//存储数据
+				store();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,6 +132,7 @@ public class RefreshTask extends TimerTask {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DbUtil.getConnection();
+			System.out.println("检测数据： 成功获得数据库连接");
 			String sql = "insert into environment values(?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, UUID.randomUUID().toString()); //uuid

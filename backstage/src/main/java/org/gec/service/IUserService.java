@@ -20,5 +20,5 @@ public interface IUserService {
 	 */
 	User findUsers(String username, String userpass);
 
-    User editPass(User word);
+    int editPass(User word);
 }

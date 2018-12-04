@@ -26,5 +26,5 @@ public interface UserMapper {
 	User getUser(Map map);
 
 	@Update("update tb_user set pass = #{pass} where id = #{id} and name = #{name}")
-    User editPass(User user);
+    int editPass(User user);
 }

@@ -35,12 +35,11 @@ public class UserServiceImpl implements IUserService {
 		Map map = new HashMap();
 		map.put("username", username);
 		map.put("userpass", userpass);
-		System.out.println("333333333333333333333333333333333333");
 		return userMapper.getUser(map);
 	}
 
 	@Override
-	public User editPass(User user) {
+	public int editPass(User user) {
 		return userMapper.editPass(user);
 	}
 }

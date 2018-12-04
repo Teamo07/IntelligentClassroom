@@ -30,7 +30,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://47.106.10.184:3306/IntelligentClassroom"></property>
 		<property name="username" value="team"></property>
-		<property name="password" value="Work1150+"></property>
+		<property name="password" value="Ruanjian1150+-."></property>
 	</bean>
 	<!-- 配置Session工厂 -->
 	<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

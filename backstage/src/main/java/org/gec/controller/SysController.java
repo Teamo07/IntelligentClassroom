@@ -20,9 +20,12 @@ public class SysController extends BaseController{
     IUserService userService;
 
     @RequestMapping(path="/login.do", produces="application/json;charset=utf-8")
-    public Map login(String username, String userpass, HttpSession session) {
-        User user = userService.findUsers(username, userpass);
+    public Map login(String username, String password, HttpSession session) {
+        System.out.println("111111111111111111111111111");
+        User user = userService.findUsers(username, password);
+        System.out.println("222222222222222222222222222");
         if (user != null) {
+            System.out.println("44444444444444444444444444444444");
             session.setAttribute("user", user);
             return ajaxReturn(true, "登录成功");
         }

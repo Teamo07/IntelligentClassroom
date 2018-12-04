@@ -9,11 +9,11 @@
 <script type="application/javascript">
 
 	function login() {
-        //var data = getFormData("loginform");
-        var data={
-            username:'scott',
-            password:'Ruanjian1150+-.',
-        }
+        var data = getFormData("loginform");
+        // var data={
+        //     username:'scott',
+        //     password:'123456',
+        // }
         console.log(data);
         $.post('sys/login.do', data, function(rt) {
             if (rt.status) {
@@ -40,11 +40,11 @@
 					<form class="signup_form_form" id="loginform" method="post">
 						<div class="form_row first_row">
 							<label for="signup_name">请输入用户名</label> <input type="text"
-								name="" placeholder="请输入用户名" id="signup_name">
+								name="username" placeholder="请输入用户名" id="signup_name">
 						</div>
 						<div class="form_row">
 							<label for="signup_password">请输入密码</label> <input type="password"
-								name="" placeholder="请输入密码" id="signup_password">
+								name="password" placeholder="请输入密码" id="signup_password">
 						</div>
 					</form>
 				</div>

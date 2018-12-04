@@ -1,6 +1,6 @@
 package org.gec.controller;
 
-import org.gec.domain.User;
+import org.gec.model.User;
 import org.gec.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
 /**
  * @ClassName UserController
  * @Author LZM

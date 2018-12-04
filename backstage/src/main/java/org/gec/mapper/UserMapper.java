@@ -1,10 +1,8 @@
 package org.gec.mapper;
 
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-import org.gec.domain.User;
+import org.gec.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,6 +21,6 @@ public interface UserMapper {
 	@Select("select * from tb_user where name = #{name} and pass = #{pass}")
 	List<User> findUser(User user);
 
-	@Select("select * from tb_user where name = #{username} and pass = password(#{userpass})")
+	@Select("select * from tb_user where name = #{username} and pass = #{userpass}")
 	User getUser(Map map);
 }

@@ -1,6 +1,6 @@
 package org.gec.controller;
 
-import org.gec.domain.User;
+import org.gec.model.User;
 import org.gec.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +40,12 @@ public class SysController extends BaseController{
         }
         User user = (User) o;
         return ajaxReturn(true, user.getName());
+    }
+
+    @RequestMapping(path="/logout.do", produces="application/json;charset=utf-8")
+    public Map logout(HttpSession session) {
+        session.invalidate();
+        return ajaxReturn(true, "");
     }
 
 }

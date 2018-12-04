@@ -1,6 +1,6 @@
 package org.gec.service.impl;
 
-import org.gec.domain.User;
+import org.gec.model.User;
 import org.gec.mapper.UserMapper;
 import org.gec.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,11 +4,13 @@ import org.gec.model.Environment;
 import org.gec.mapper.EnvironmentMapper;
 import org.gec.service.IEnvironmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Service
 public class EnvironmentServiceImpl implements IEnvironmentService {
 
     @Autowired

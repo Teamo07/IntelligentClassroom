@@ -17,6 +17,7 @@ import org.gec.smart.util.CommonUtil;
 import org.gec.smart.util.TCPUtil;
 import org.gec.smart.util.AnalysisUtil;
 import org.gec.smart.util.DbUtil;
+import sun.awt.image.DataBufferNative;
 
 /*
 	发送控制指令
@@ -96,9 +97,13 @@ public class ControlDeviceServlet extends HttpServlet {
 	private void doLog(LightLog lightLog) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+
+
 		try {
+
 			//获取数据库连接
 			conn = DbUtil.getConnection();
+			//conn = DbUtil.getInitInstance().getConnection();
 			System.out.println("灯光控制：成功获得数据库连接");
 			String sql = "insert into light_log values(?, ?, ?, ?)";
 			//创建Statement对象
@@ -108,12 +113,16 @@ public class ControlDeviceServlet extends HttpServlet {
 			pstmt.setBoolean(2, lightLog.getOperation());
 			pstmt.setTimestamp(3, new java.sql.Timestamp(lightLog.getCreateTime().getTime()));
 			pstmt.setInt(4, lightLog.getDeviceNo());
+
 			//执行更新操作
 			pstmt.executeUpdate();
+			System.out.println("成功存储灯光控制日志！！");
+
 		} catch (SQLException e) {
 			throw new RuntimeException("记录灯光操作日志失败！");
 		} finally {
 			DbUtil.release(null, pstmt, conn);
+
 		}
 	}
 
@@ -123,6 +132,8 @@ public class ControlDeviceServlet extends HttpServlet {
 		try {
 			//获取数据库连接
 			conn = DbUtil.getConnection();
+			System.out.println("空调控制：成功获得数据库连接");
+			//conn = DbUtil.getInitInstance().getConnection();
 			String sql = "insert into air_conditioner_log values(?, ?, ?, ?,?, ?, ?, ?,?, ?, ?)";
 			//创建Statement对象
 			pstmt = conn.prepareStatement(sql);
@@ -140,10 +151,12 @@ public class ControlDeviceServlet extends HttpServlet {
 			pstmt.setTimestamp(11, new java.sql.Timestamp(airConditionerLog.getCreatetime().getTime()));
 			//执行更新操作
 			pstmt.executeUpdate();
+			System.out.println("成功存储空调控制日志");
+
 		} catch (SQLException e) {
 			throw new RuntimeException("记录空调操作日志失败！");
 		} finally {
-			DbUtil.release(null, pstmt, conn);
+		DbUtil.release(null, pstmt, conn);
 		}
 	}
 }

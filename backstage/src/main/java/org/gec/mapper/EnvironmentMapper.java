@@ -18,5 +18,4 @@ public interface EnvironmentMapper {
     @Select("select count(*) from environment")
     int count();
 
-
 }

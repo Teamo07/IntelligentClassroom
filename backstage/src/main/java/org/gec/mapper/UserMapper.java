@@ -2,6 +2,7 @@ package org.gec.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.gec.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +24,7 @@ public interface UserMapper {
 
 	@Select("select * from tb_user where name = #{username} and pass = #{userpass}")
 	User getUser(Map map);
+
+	@Update("update tb_user set pass = #{pass} where id = #{id} and name = #{name}")
+    int editPass(User user);
 }

@@ -6,11 +6,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
 
+import java.sql.Connection;
+import java.util.UUID;
+import org.gec.smart.util.DbUtil;
 import org.gec.smart.util.TCPUtil;
 
 /*
@@ -61,12 +66,14 @@ public class RefreshTask extends TimerTask {
 				}
 				System.out.println("start");
 				long current = System.currentTimeMillis();
-				//暂停800毫秒
+				//暂停3秒
 				while(System.currentTimeMillis() - current < 3000){
 				}
 				String analysing = TCPUtil.printHexString(receive);
 				System.out.println("end receive ->" + analysing);
 				analysis(analysing);
+				//存储数据
+				store();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,6 +118,36 @@ public class RefreshTask extends TimerTask {
 				System.out.println("return -1;");
 				return;
 			}
+		}
+	}
+
+	/**
+	 * 记录当前的温度和湿度
+	 * @param temperature 温度
+	 * @param humidity 湿度
+	 */
+
+	private void store() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = DbUtil.getConnection();
+			System.out.println("检测数据： 成功获得数据库连接");
+			String sql = "insert into environment values(?, ?, ?, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, UUID.randomUUID().toString()); //uuid
+			pstmt.setInt(2, 0); //有人
+			pstmt.setFloat(3, humidity); //湿度
+			pstmt.setInt(4, 0); //火焰
+			pstmt.setInt(5, 0); //烟雾
+			pstmt.setFloat(6, temperature); //温度
+			pstmt.setInt(7, 0); //灯光
+			pstmt.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbUtil.release(null, pstmt, conn);
 		}
 	}
 

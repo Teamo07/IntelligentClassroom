@@ -123,8 +123,6 @@ public class RefreshTask extends TimerTask {
 
 	/**
 	 * 记录当前的温度和湿度
-	 * @param temperature 温度
-	 * @param humidity 湿度
 	 */
 
 	private void store() {
@@ -132,6 +130,7 @@ public class RefreshTask extends TimerTask {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DbUtil.getConnection();
+			//conn = DbUtil.getInitInstance().getConnection();
 			System.out.println("检测数据： 成功获得数据库连接");
 			String sql = "insert into environment values(?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
@@ -144,6 +143,8 @@ public class RefreshTask extends TimerTask {
 			pstmt.setInt(7, 0); //灯光
 			pstmt.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
 			pstmt.executeUpdate();
+
+			System.out.println("成功存储检测数据！！");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

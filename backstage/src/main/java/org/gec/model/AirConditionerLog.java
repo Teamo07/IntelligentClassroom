@@ -14,7 +14,7 @@ public class AirConditionerLog {
     private boolean freshness; //保鲜
     private int temperature; //温度
     private int deviceno;  //设备编号
-    private Date createtime; //检测时间
+    private Date createtime; //操作时间
 
 
     public String getId() {

@@ -25,7 +25,7 @@
         });
         //登出
         function logout() {
-            $.post('sys/logout.do', function(rt) {
+            $.post('../sys/logout.do', function(rt) {
                 if (rt.status) {
                     location = 'login.html';
                 }

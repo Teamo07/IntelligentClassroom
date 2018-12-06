@@ -3,9 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>智能教室后台管理系统</title>
-<link rel="stylesheet" type="text/css" href="css/login.css" />
-	<script type="text/javascript" src='adminjs/jquery.min.js'> </script>
-	<script type="text/javascript" src='adminjs/form.js'> </script>
+<link rel="stylesheet" type="text/css" href="../css/login.css" />
+	<script type="text/javascript" src='../adminjs/jquery.min.js'> </script>
+	<script type="text/javascript" src='../adminjs/form.js'> </script>
 <script type="application/javascript">
 
 	function login() {
@@ -15,9 +15,9 @@
         //     password:'123456',
         // }
         console.log(data);
-        $.post('sys/login.do', data, function(rt) {
+        $.post('/sys/login.do', data, function(rt) {
             if (rt.status) {
-                location = 'html/index.html';
+                location = '/html/index.html';
             } else {
                 alert(rt.message);
             }
@@ -34,7 +34,7 @@
 		<div id="userInfo">
 			<span
 				style="float: left; margin-left: 40px; height: 200px; border: 0px solid red"><img
-				src='images/logo.png' id='admin' /></span> <span
+				src='../images/logo.png' id='admin' /></span> <span
 				style="float: left; margin-left: 40px; height: 200px; border: 0px solid red">
 				<div id="signup_forms" class="signup_forms clearfix">
 					<form class="signup_form_form" id="loginform" method="post">

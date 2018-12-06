@@ -13,7 +13,6 @@ public class BaseController {
     /**
      *  用Map作为响应ajax返回类型
      **/
-    @SuppressWarnings("unchecked")
     public Map ajaxReturn(boolean st, String msg) {
         Map map = new HashMap();
         map.put("status", st);

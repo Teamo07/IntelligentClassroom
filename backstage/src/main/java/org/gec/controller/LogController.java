@@ -1,9 +1,11 @@
 package org.gec.controller;
 
 import org.gec.model.AirConditionerLog;
+import org.gec.model.Attendance;
 import org.gec.model.LightLog;
 import org.gec.model.PageModel;
 import org.gec.service.IAirConditionerLogService;
+import org.gec.service.IAttendLogService;
 import org.gec.service.ILightLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,8 @@ public class LogController  extends BaseController{
     private IAirConditionerLogService airConditionerLogService;
     @Autowired
     private ILightLogService lightLogService;
+    @Autowired
+    private IAttendLogService attendLogService;
 
     @RequestMapping(path="/getAirConditionerLog.do", produces="application/json;charset=utf-8")
     @ResponseBody
@@ -46,6 +50,18 @@ public class LogController  extends BaseController{
     public PageModel getLightLog(Integer page, Integer rows) {
         int total = lightLogService.getTotal();
         List<LightLog> data = lightLogService.findLightLog(page, rows);
+        PageModel pagemodel = new PageModel();
+        pagemodel.setTotal(total);
+        pagemodel.setRows(data);
+        return pagemodel;
+    }
+
+
+    @RequestMapping(path="/getAttendLog.do",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public PageModel getAttendLog(Integer page, Integer rows) {
+        int total = attendLogService.getTotal();
+        List<Attendance> data = attendLogService.findAttendLog(page, rows);
         PageModel pagemodel = new PageModel();
         pagemodel.setTotal(total);
         pagemodel.setRows(data);

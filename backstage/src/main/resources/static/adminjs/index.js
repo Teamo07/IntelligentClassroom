@@ -15,7 +15,7 @@ var _menus={
                 "icon":"icon-sys","menuid":"100","menuname":"系统管理","menus":
                     [
                         {"icon":"icon-sys","menuid":"101","menuname":"监测数据查询","url":"listEnv.html"},
-                        {"icon":"icon-sys","menuid":"102","menuname":"学生管理","url":""},
+                        {"icon":"icon-sys","menuid":"102","menuname":"学生管理","url":"listStu.html"},
                         {"icon":"icon-sys","menuid":"103","menuname":"设备管理","url":"listAsset.html"}
                     ]
             },
@@ -24,7 +24,7 @@ var _menus={
                     [
                         {"icon":"icon-sys","menuid":"201","menuname":"灯光控制记录","url":"listLightLog.html"},
                         {"icon":"icon-sys","menuid":"202","menuname":"空调控制记录","url":"listAirConditionerLog.html"},
-                        {"icon":"icon-sys","menuid":"202","menuname":"学生考勤记录","url":""},
+                        {"icon":"icon-sys","menuid":"202","menuname":"学生考勤记录","url":"listAttendance.html"},
                         {"icon":"icon-sys","menuid":"202","menuname":"资产进出记录","url":""}
                     ]
             }

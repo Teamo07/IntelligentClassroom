@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import sun.security.x509.SubjectKeyIdentifierExtension;
+import sun.util.resources.cldr.pa.CalendarData_pa_Arab_PK;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +35,22 @@ public class SysController extends BaseController{
 
     @RequestMapping(path="/login.do", produces="application/json;charset=utf-8")
     @ResponseBody
-    public Map login(HttpServletRequest request, String username, String password) {
+    public Map login( String username, String password, Boolean rem, HttpServletResponse response) {
+
+        /**
+         * 勾选记住密码则保存cookie
+         * 否则不保存
+         */
+        if(rem) {
+            Cookie c = new Cookie("user", username + "#" + password);
+            c.setMaxAge(60 * 60 * 24 * 7);
+            response.addCookie(c);
+        } else {
+            Cookie c = new Cookie("user", "");
+            c.setMaxAge(0);
+            response.addCookie(c);
+        }
+
         //第一步：创建令牌
         UsernamePasswordToken token = new UsernamePasswordToken(username,password);
         //第二步：获取Subject对象，该对象封装了一系列的操作
@@ -80,6 +98,18 @@ public class SysController extends BaseController{
             e.printStackTrace();
         }
         return ajaxReturn(false, "修改失败");
+    }
+
+    @RequestMapping(path = "/checkRem.do",produces = "application/json;charset=utf-8")
+    public Map checkRem(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies){
+            String cookieName = cookie.getName();
+            if("user".equals(cookieName)){
+                return ajaxReturn(true,cookie.getValue());
+            }
+        }
+        return ajaxReturn(false,"");
     }
 
 

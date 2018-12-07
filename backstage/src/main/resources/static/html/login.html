@@ -10,6 +10,18 @@
 
 	function login() {
         var data = getFormData("loginform");
+        if($("input[type='checkbox']").prop("checked")){
+            data['rem'] = true;
+        } else {
+            data['rem'] = false;
+        }
+        // var cb = $("input[type='checkbox']");
+        // if (cb.prop("checked")) { //判断checkbox的选中状态，如果选中就返回true，否则返回false。
+        //     data['rem'] = true;
+        // } else {
+        //     data['rem'] = false;
+        // }
+
         // var data={
         //     username:'scott',
         //     password:'123456',
@@ -23,6 +35,23 @@
             }
         }, "json");
     }
+
+    $(function () {
+		$.post('/sys/checkRem.do',function (rt) {
+			if(rt.status){
+			    //$("input[type='checkbox']").prop("checked",true);
+                //修改复选框状态为选中
+                var cb = $("input[type='checkbox']");
+                cb.prop("checked", true);
+                var cookie = rt.message;
+			    var name = cookie.split("#")[0];
+                var pass = cookie.split("#")[1];
+			    $("input[name = 'username']").val(name);
+                $("input[name = 'password']").val(pass);
+			}
+        },"json");
+    })
+
 </script>
 </head>
 <body>
@@ -52,7 +81,7 @@
 			</span>
 		</div>
 		<div class="login-btn-set">
-			<div class='rem'>记住我</div>
+			<div class='rem'><input type="checkbox"/>记住我</div>
 			<a href='javascript:login()' class='login-btn'></a>
 		</div>
 	</div>

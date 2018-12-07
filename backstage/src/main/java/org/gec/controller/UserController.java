@@ -53,5 +53,4 @@ public class UserController {
         map.put("message", message);
         return map;
     }
-
 }

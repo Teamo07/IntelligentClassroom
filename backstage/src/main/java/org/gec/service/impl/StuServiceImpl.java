@@ -7,6 +7,7 @@ import org.gec.model.Student;
 import org.gec.service.IStuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -63,5 +64,18 @@ public class StuServiceImpl implements IStuService {
         Student student = new Student();
         student.setId(id);
         studentMapper.deleteStu(student);
+    }
+
+    @Override
+    public List<Student> findStu() {
+        return studentMapper.getAllStudent();
+    }
+
+    @Override
+    @Transactional
+    public void addStudent(List<Student>students) {
+        for (int i = 0; i < students.size(); i++) {
+            addStu(students.get(i));
+        }
     }
 }

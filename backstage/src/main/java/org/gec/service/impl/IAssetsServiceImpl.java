@@ -6,6 +6,7 @@ import org.gec.model.PageModel;
 import org.gec.service.IAssetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -60,5 +61,19 @@ public class IAssetsServiceImpl implements IAssetsService {
         Asset asset = new Asset();
         asset.setId(id);
         assetMapper.deleteAsset(asset);
+    }
+
+    @Override
+    public List<Asset> findAsset() {
+        return assetMapper.getAllAsset();
+    }
+
+
+    @Override
+    @Transactional
+    public void addAsset(List<Asset> assets) {
+        for (int i = 0; i < assets.size(); i++) {
+            addAsset(assets.get(i));
+        }
     }
 }

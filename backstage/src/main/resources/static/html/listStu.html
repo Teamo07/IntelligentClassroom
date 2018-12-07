@@ -9,10 +9,55 @@
     <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" src="../adminjs/form.js"></script>
+    <script type="text/javascript" src="../adminjs/jquery.form.js"></script>
     <script>
         var url; //全局变量，存储点击对话框保存按钮售后，提交请求的URL地址
-
         $(function() {
+            //初始化导入学生对话框
+            $('#importWindow').dialog({
+                title : '导入', //标题
+                width : 350, //宽度
+                height : 130, //高度
+                closed : true, //默认状态为关闭
+                cache : false, //是否缓存
+                modal : true, //是否显示遮挡层
+                buttons : [{
+                    text : '上传',
+                    handler : function() {
+                        //获取表单验证的结果
+                        if ($("#file").val() == '') {
+                            $.messager.alert("提示", "请选择上传文件");
+                            return;
+                        }
+                        //初始化文件上传表单
+                        $("#importForm").ajaxSubmit({
+                            url: "../admin/importStu.do",
+                            type: "post",
+                            dataType: "json",
+                            async: true,
+                            success: function(rt){
+                                if (rt.status) {
+                                    $("#importWindow").dialog('close'); //关闭对话框
+                                    $("#importForm").form("clear"); //清空表单
+                                    $("#tt").datagrid("load"); //刷新表格
+                                }
+                                $.messager.alert("提示", rt.message);
+                            }
+                        });
+                    }
+                }, {
+                    text : '取消',
+                    handler : function() {
+                        $("#editWindow").dialog('close'); //关闭对话框
+                        $("#editForm").form("clear"); //清空表单
+                    }
+                }]
+            });
+
+
+
+
+
 
             //初始化表格
             $('#tt').datagrid({
@@ -76,7 +121,19 @@
                             });
                         }
                     }
-                }],
+                },{
+                        iconCls: 'icon-print',
+                        text: '导出Excel',
+                        handler: function() {
+                            window.open("../admin/exportStu.do");
+                        }
+                    },{
+                        iconCls: 'icon-back',
+                        text: '导入学生',
+                        handler: function() {
+                            $("#importWindow").dialog('open');
+                        }
+                    }],
                 singleSelect: true,  //true代表表格只能够单选
                 pagination: true, //是否显示分页栏，true就显示，默认为false，不显示
                 pageSize: '5', //默认每页显示5条记录
@@ -129,12 +186,12 @@
         <input type="hidden" name="id"/><!-- 隐藏域 -->
         <table style="margin: 10px;">
             <tr>
-                <td>设备名称：</td>
+                <td>学生姓名：</td>
                 <td><input name="name" class="easyui-validatebox" data-options="required:true"
                            missingMessage="学生姓名不能为空"/></td>
             </tr>
             <tr>
-                <td>设备编号：</td>
+                <td>学号：</td>
                 <td><input name="number" class="easyui-validatebox" data-options="required:true"
                            missingMessage="学号不能为空"/></td>
             </tr>
@@ -151,6 +208,18 @@
                         <option value="0">未到</option>
                     </select>
                 </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!-- 导入学生对话框 -->
+<div id="importWindow">
+    <form id="importForm" enctype="multipart/form-data">
+        <table style="margin: 10px;">
+            <tr>
+                <td>选择：</td>
+                <td><input type="file" id="file" name="file"/></td>
             </tr>
         </table>
     </form>

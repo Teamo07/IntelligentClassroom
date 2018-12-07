@@ -11,6 +11,17 @@ public class Student {
 
     private Integer status;
 
+
+    public Student() {}
+
+    public Student(String id, String name, String number, String rfid,
+                 Integer status) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.rfid = rfid;
+        this.status = status;
+    }
     public String getId() {
         return id;
     }
@@ -50,4 +61,6 @@ public class Student {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+
 }

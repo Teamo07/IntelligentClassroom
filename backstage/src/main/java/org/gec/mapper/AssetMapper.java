@@ -53,6 +53,7 @@ public interface AssetMapper {
 	
 	@Delete("delete from asset where id = #{id}")
 	void deleteAsset(Asset asset);
-	
-	
+
+	@Select("select * from asset")
+	List<Asset> getAllAsset();
 }

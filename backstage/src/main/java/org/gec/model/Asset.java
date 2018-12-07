@@ -11,6 +11,16 @@ public class Asset {
 
     private Boolean status;
 
+    public Asset() {}
+
+    public Asset(String id, String name, String number, String rfid,
+                 Boolean status) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.rfid = rfid;
+        this.status = status;
+    }
     public String getId() {
         return id;
     }

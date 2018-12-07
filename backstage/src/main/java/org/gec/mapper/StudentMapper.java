@@ -32,4 +32,7 @@ public interface StudentMapper {
 
     @Select("select * from student where id = #{id}")
     Student getStuById(Student student);
+
+    @Select("select * from student")
+    List<Student> getAllStudent();
 }

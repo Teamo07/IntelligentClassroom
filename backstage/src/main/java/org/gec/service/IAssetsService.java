@@ -3,6 +3,8 @@ package org.gec.service;
 import org.gec.model.Asset;
 import org.gec.model.PageModel;
 
+import java.util.List;
+
 /**
  * @Author LZM
  * @Date 2018/12/5 15:43
@@ -18,4 +20,12 @@ public interface IAssetsService {
     void updateAsset(Asset asset);
 
     void deleteAsset(String id);
+
+    List<Asset> findAsset();
+
+    /**
+     批量添加设备
+     @param assets
+     */
+    void addAsset(List<Asset> assets);
 }

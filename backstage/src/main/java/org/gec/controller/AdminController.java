@@ -4,8 +4,10 @@ package org.gec.controller;
 import org.gec.model.Asset;
 import org.gec.model.Environment;
 import org.gec.model.PageModel;
+import org.gec.model.Student;
 import org.gec.service.IAssetsService;
 import org.gec.service.IEnvironmentService;
+import org.gec.service.IStuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +27,7 @@ public class AdminController extends BaseController{
     private IEnvironmentService environmentService;
 
     @Autowired
-    private IAssetsService stuService;
+    private IStuService stuService;
     /**
      *
      * @param page 第几页
@@ -46,13 +48,13 @@ public class AdminController extends BaseController{
     @RequestMapping(path="/getAsset.do", produces="application/json;charset=utf-8")
     public PageModel getAsset(Integer page, Integer rows) {
         System.out.println("page = " + page + ", rows = " + rows);
-        return stuService.findAsset(page, rows);
+        return stuService.findStu(page, rows);
     }
 
     @RequestMapping(path="/addAsset.do", produces="application/json;charset=utf-8")
-    public Map addAsset(Asset asset) {
+    public Map addAsset(Student student) {
         try {
-            stuService.addAsset(asset);
+            stuService.addStu(student);
             return ajaxReturn(true, "添加成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,14 +63,14 @@ public class AdminController extends BaseController{
     }
 
     @RequestMapping(path="/loadAsset.do", produces="application/json;charset=utf-8")
-    public Asset loadAsset(String id) {
-        return stuService.getAsset(id);
+    public Student loadAsset(String id) {
+        return stuService.getStu(id);
     }
 
     @RequestMapping(path="/updateAsset.do", produces="application/json;charset=utf-8")
-    public Map updateAsset(Asset asset) {
+    public Map updateAsset(Student student) {
         try {
-            stuService.updateAsset(asset);
+            stuService.updateStu(student);
             return ajaxReturn(true, "修改成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +81,7 @@ public class AdminController extends BaseController{
     @RequestMapping(path="/delAsset.do", produces="application/json;charset=utf-8")
     public Map delAsset(String id) {
         try {
-            stuService.deleteAsset(id);
+            stuService.deleteStu(id);
             return ajaxReturn(true, "删除成功");
         } catch (Exception e) {
             e.printStackTrace();

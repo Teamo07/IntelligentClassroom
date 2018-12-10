@@ -1,4 +1,4 @@
-
+package org.gec;
 
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 	SpringBoot的启动类
 */
 @SpringBootApplication
+
 @ComponentScan(basePackages={"org.gec"})
 @MapperScan("org.gec.mapper")
 public class Application extends SpringBootServletInitializer {

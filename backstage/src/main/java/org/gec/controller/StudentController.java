@@ -32,8 +32,11 @@ public class StudentController extends BaseController{
     @RequestMapping(path="/addStu.do", produces="application/json;charset=utf-8")
     public Map addAsset(Student student) {
         try {
-            stuService.addStu(student);
-            return ajaxReturn(true, "添加成功");
+            boolean flag=stuService.addStu(student);
+            if (flag){
+                return ajaxReturn(true, "添加成功");
+            }
+            return ajaxReturn(false, "添加失败");
         } catch (Exception e) {
             e.printStackTrace();
         }

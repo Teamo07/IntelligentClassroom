@@ -34,7 +34,7 @@ public interface AssetMapper {
 	 * @param asset
 	 */
 	@Insert("insert into asset values(#{id}, #{name}, #{number}, #{rfid}, #{status})")
-	void addAsset(Asset asset);
+	int addAsset(Asset asset);
 	
 	/**
 	 * 根据ID查询设备

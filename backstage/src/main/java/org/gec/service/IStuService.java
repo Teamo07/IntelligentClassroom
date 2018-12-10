@@ -12,7 +12,7 @@ import java.util.List;
  **/
 public interface IStuService {
 
-    void addStu(Student student);
+    boolean addStu(Student student);
 
     PageModel findStu(Integer page, Integer rows);
 
@@ -28,5 +28,5 @@ public interface IStuService {
      批量添加学生
      @param students
      */
-    void addStudent(List<Student> students);
+    boolean addStudent(List<Student> students);
 }

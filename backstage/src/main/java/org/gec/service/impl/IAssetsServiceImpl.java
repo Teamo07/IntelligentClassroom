@@ -39,9 +39,12 @@ public class IAssetsServiceImpl implements IAssetsService {
     }
 
     @Override
-    public void addAsset(Asset asset) {
+    public boolean addAsset(Asset asset) {
         asset.setId(UUID.randomUUID().toString()); //生成UUID唯一值
-        assetMapper.addAsset(asset);
+        if(assetMapper.addAsset(asset)==1){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -71,9 +74,13 @@ public class IAssetsServiceImpl implements IAssetsService {
 
     @Override
     @Transactional
-    public void addAsset(List<Asset> assets) {
+    public boolean addAsset(List<Asset> assets) {
+        int status=0;
         for (int i = 0; i < assets.size(); i++) {
-            addAsset(assets.get(i));
+            if (addAsset(assets.get(i))){
+                status++;
+            }
         }
+        return status==assets.size() ? true : false;
     }
 }

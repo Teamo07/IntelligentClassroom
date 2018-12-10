@@ -66,8 +66,11 @@ public class AdminController extends BaseController{
     @RequestMapping(path="/addAsset.do", produces="application/json;charset=utf-8")
     public Map addAsset(Asset asset) {
         try {
-            iAssetsService.addAsset(asset);
-            return ajaxReturn(true, "添加成功");
+            boolean flag=iAssetsService.addAsset(asset);
+            if (flag){
+                return ajaxReturn(true, "添加成功");
+            }
+            return ajaxReturn(false, "添加失败");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,20 +160,33 @@ public class AdminController extends BaseController{
             HSSFSheet sheet = wb.getSheetAt(0);
             //第三步：获取总的行数；
             int lastRowNum = sheet.getLastRowNum();
+            System.out.println("lastRowNum : "+lastRowNum);
             //该集合用于读取到的设备
             List<Asset> assets = new ArrayList<Asset>();
-            for (int i = 1; i <= lastRowNum; i++) {
+            Asset a=null;
+            boolean status = false;
+            for (int i = 1;i <= lastRowNum; i++) {
                 HSSFRow row = sheet.getRow(i); //获取行
                 String id = row.getCell(0).getStringCellValue(); //获取单元格数据，下标从0开始
                 String name = row.getCell(1).getStringCellValue();
                 String number = row.getCell(2).getStringCellValue();
                 String rfid = row.getCell(3).getStringCellValue();
-                boolean status = row.getCell(4).getBooleanCellValue();
-                assets.add(new Asset(id, name, number, rfid, status));
+
+                String s=row.getCell(4).getStringCellValue();
+                if (s.equals("可用")){
+                    status=true;
+                }
+
+                a=new Asset(id, name, number, rfid, status);
+                assets.add(a);
+                System.out.println(a);
             }
             //第六步：把获取到的联系人的数据保存数据库中；
-            iAssetsService.addAsset(assets);
-            return ajaxReturn(true, "导入成功");
+            boolean flag=iAssetsService.addAsset(assets);
+            if (flag){
+                return ajaxReturn(true, "导入成功");
+            }
+            return ajaxReturn(false, "导入失败");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -214,8 +230,7 @@ public class AdminController extends BaseController{
             row.createCell(1).setCellValue(student.getName());
             row.createCell(2).setCellValue(student.getNumber());
             row.createCell(3).setCellValue(student.getRfid());
-            row.createCell(4).setCellValue(student.getStatus());
-//            row.createCell(4).setCellValue(student.getStatus() ? "可用" : "不可用");
+            row.createCell(4).setCellValue(student.getStatus()==1 ? "已打卡" : "未打卡");
         }
         // 把工作簿输出
         wb.write(response.getOutputStream());
@@ -244,6 +259,7 @@ public class AdminController extends BaseController{
             //该集合用于读取到的学生
 //            List<Student> students = new ArrayList<Student>();
             List<Student> students = new ArrayList<>();
+            Integer status=0;
             for (int i = 1; i <= lastRowNum; i++) {
                 HSSFRow row = sheet.getRow(i); //获取行
                 String id = row.getCell(0).getStringCellValue(); //获取单元格数据，下标从0开始
@@ -251,12 +267,17 @@ public class AdminController extends BaseController{
                 String number = row.getCell(2).getStringCellValue();
                 String rfid = row.getCell(3).getStringCellValue();
                 String statu = row.getCell(4).getStringCellValue();
-                Integer status=Integer.parseInt(statu);
+                if (statu.equals("已打卡")){
+                    status=1;
+                }
                 students.add(new Student(id, name, number, rfid, status));
             }
             //第六步：把获取到的联系人的数据保存数据库中；
-            iStuService.addStudent(students);
-            return ajaxReturn(true, "导入成功");
+            boolean flag=iStuService.addStudent(students);
+            if (flag){
+                return ajaxReturn(true, "导入成功");
+            }
+            return ajaxReturn(false, "导入失败");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

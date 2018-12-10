@@ -13,7 +13,7 @@ public interface IAssetsService {
 
     PageModel findAsset(int page, int rows) ;
 
-    void addAsset(Asset asset);
+    boolean addAsset(Asset asset);
 
     Asset getAsset(String id);
 
@@ -27,5 +27,5 @@ public interface IAssetsService {
      批量添加设备
      @param assets
      */
-    void addAsset(List<Asset> assets);
+    boolean addAsset(List<Asset> assets);
 }

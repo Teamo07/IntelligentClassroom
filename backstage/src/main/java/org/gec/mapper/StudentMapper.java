@@ -28,7 +28,7 @@ public interface StudentMapper {
     List<Asset> getStu(PageModel pageModel);
 
     @Insert("insert into student values(#{id}, #{name}, #{number}, #{rfid}, #{status})")
-    void addStu(Student student);
+    int addStu(Student student);
 
     @Select("select * from student where id = #{id}")
     Student getStuById(Student student);

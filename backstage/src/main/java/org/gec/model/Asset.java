@@ -60,4 +60,15 @@ public class Asset {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Asset{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", rfid='" + rfid + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

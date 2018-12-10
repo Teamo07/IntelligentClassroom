@@ -25,9 +25,11 @@ public class StuServiceImpl implements IStuService {
     private StudentMapper studentMapper;
 
     @Override
-    public void addStu(Student student) {
+    public boolean addStu(Student student) {
         student.setId(UUID.randomUUID().toString()); //生成UUID唯一值
-        studentMapper.addStu(student);
+        int i=studentMapper.addStu(student);
+        System.out.println("插入学生 ："+i);
+        return i==1? true:false;
     }
 
     @Override
@@ -73,9 +75,13 @@ public class StuServiceImpl implements IStuService {
 
     @Override
     @Transactional
-    public void addStudent(List<Student>students) {
+    public boolean addStudent(List<Student>students) {
+        int status=0;
         for (int i = 0; i < students.size(); i++) {
-            addStu(students.get(i));
+            if (addStu(students.get(i))){
+                status++;
+            }
         }
+        return status==students.size() ? true : false;
     }
 }

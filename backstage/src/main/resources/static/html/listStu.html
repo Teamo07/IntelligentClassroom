@@ -31,7 +31,7 @@
                         }
                         //初始化文件上传表单
                         $("#importForm").ajaxSubmit({
-                            url: "../admin/importStu.do",
+                            url: "../stu/importStu.do",
                             type: "post",
                             dataType: "json",
                             async: true,
@@ -125,7 +125,7 @@
                         iconCls: 'icon-print',
                         text: '导出Excel',
                         handler: function() {
-                            window.open("../admin/exportStu.do");
+                            window.open("../stu/exportStu.do");
                         }
                     },{
                         iconCls: 'icon-back',

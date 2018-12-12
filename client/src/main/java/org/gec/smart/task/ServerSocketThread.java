@@ -82,7 +82,6 @@ public class ServerSocketThread extends Thread {
      * @param rfid
      */
     private void addAttendance(String rfid) {
-        System.out.println("开始保存考勤记录....");
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -97,8 +96,9 @@ public class ServerSocketThread extends Thread {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, rfid);
             rs =  pstmt.executeQuery();
-            System.out.println("正在保存考勤记录(" + rfid + ")....");
             if (rs.next()) {
+                System.out.println("正在保存考勤记录(" + rfid + ")....");
+
                 System.out.println("更新学生状态。。");
                 boolean status = rs.getBoolean("status");
                 sql = "update student set status = ? where rfid = ?";
@@ -115,9 +115,12 @@ public class ServerSocketThread extends Thread {
                 pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
                 pstmt.setBoolean(4, !status);
                 pstmt.executeUpdate();
+
+                conn.commit(); //提交事务
+                System.out.println("考勤记录保存成功！");
+            }else {
+                System.out.println("查询不到该学生！");
             }
-            conn.commit(); //提交事务
-            System.out.println("考勤记录保存成功！");
         } catch (SQLException e) {
             throw new RuntimeException("保存考勤记录失败！");
         } finally {

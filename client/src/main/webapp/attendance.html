@@ -107,7 +107,7 @@
                     html += `<tr><td>` + item.id + `</td>
                         <td>` + item.rfid + `</td>
                         <td>` + toDate(item.createtime) + `</td>
-                        <td>` + (item.status ? "进入" : "离开") + `</td>
+                        <td>` + (item.status ? "已签到" : "离开") + `</td>
                         </tr>`;
                 });
                 $('#assetTab').find('tbody[id=tbody]').html(html);

@@ -11,6 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 /*
 	SpringBoot的启动类
+	要放在Test类的上一层
+	否则识别不了
 */
 @SpringBootApplication
 

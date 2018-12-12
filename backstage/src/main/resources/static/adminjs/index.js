@@ -24,8 +24,8 @@ var _menus={
                     [
                         {"icon":"icon-sys","menuid":"201","menuname":"灯光控制记录","url":"listLightLog.html"},
                         {"icon":"icon-sys","menuid":"202","menuname":"空调控制记录","url":"listAirConditionerLog.html"},
-                        {"icon":"icon-sys","menuid":"202","menuname":"学生考勤记录","url":"listAttendance.html"},
-                        {"icon":"icon-sys","menuid":"202","menuname":"资产进出记录","url":""}
+                        {"icon":"icon-sys","menuid":"202","menuname":"学生考勤记录","url":"listAttendanceLog.html"},
+                        {"icon":"icon-sys","menuid":"202","menuname":"设备进出记录","url":"listAssetLog.html"}
                     ]
             }
 

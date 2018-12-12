@@ -2,12 +2,9 @@ package org.gec.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.gec.model.Asset;
+import org.gec.model.AssetLog;
 import org.gec.model.PageModel;
 import org.springframework.stereotype.Repository;
 
@@ -21,13 +18,34 @@ public interface AssetMapper {
 	@Select("select * from asset limit #{start}, #{pageSize}")
 	@ResultType(Asset.class)
 	List<Asset> getAsset(PageModel pageModel);
-	
+
+	/**
+	 * 分页查询资产数据
+	 * @param pageModel 封装分页信息
+	 * @return
+	 */
+	@Select("select * from asset_log limit #{start}, #{pageSize}")
+	@Results({
+			@Result(column = "id", property = "id", id = true),
+			@Result(column = "rfid", property = "rfid"),
+			@Result(column = "create_time", property = "createTime"),
+			@Result(column = "status", property = "status")
+	})
+	List<AssetLog> getAssetLog(PageModel pageModel);
+
 	/**
 	 * 统计总的记录数
 	 * @return
 	 */
 	@Select("select count(*) from asset")
-	int count();
+	int assetCount();
+
+	/**
+	 * 统计总的记录数
+	 * @return
+	 */
+	@Select("select count(*) from asset_log")
+	int assetLogCount();
 	
 	/**
 	 * 添加设备
@@ -35,6 +53,9 @@ public interface AssetMapper {
 	 */
 	@Insert("insert into asset values(#{id}, #{name}, #{number}, #{rfid}, #{status})")
 	int addAsset(Asset asset);
+
+	@Insert("insert into asset_log values(#{id},  #{rfid},#{createTime}, #{status})")
+	int addAssetLog(AssetLog assetLog);
 	
 	/**
 	 * 根据ID查询设备

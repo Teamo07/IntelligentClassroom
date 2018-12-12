@@ -1,6 +1,7 @@
 package org.gec.service;
 
 import org.gec.model.Asset;
+import org.gec.model.AssetLog;
 import org.gec.model.PageModel;
 
 import java.util.List;
@@ -13,7 +14,11 @@ public interface IAssetsService {
 
     PageModel findAsset(int page, int rows) ;
 
+    PageModel findAssetLog(int page, int rows);
+
     boolean addAsset(Asset asset);
+
+    boolean addAssetLog(AssetLog assetLog);
 
     Asset getAsset(String id);
 

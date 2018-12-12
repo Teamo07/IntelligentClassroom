@@ -4,9 +4,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.gec.model.Asset;
+import org.gec.model.AssetLog;
 import org.gec.model.PageModel;
-import org.gec.model.Student;
-import org.gec.service.IStuService;
+import org.gec.service.IAssetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,29 +21,35 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName StudentController
- * @Author LZM
- * @Date 2018/12/6 14:36
- * @Version 1.0
+ * @author:
  **/
 @RestController
-@RequestMapping("/stu")
-public class StudentController extends BaseController{
+@RequestMapping("/asset")
+public class AssetController extends BaseController{
 
     @Autowired
-    private IStuService stuService;
+    private IAssetsService iAssetsService;
 
-    @RequestMapping(path="/getStu.do", produces="application/json;charset=utf-8")
+
+
+    @RequestMapping(path="/getAsset.do", produces="application/json;charset=utf-8")
     public PageModel getAsset(Integer page, Integer rows) {
         System.out.println("page = " + page + ", rows = " + rows);
-        return stuService.findStu(page, rows);
+        return iAssetsService.findAsset(page,rows);
     }
 
-    @RequestMapping(path="/addStu.do", produces="application/json;charset=utf-8")
-    public Map addAsset(Student student) {
+    @RequestMapping(path="/addAsset.do", produces="application/json;charset=utf-8")
+    public Map addAsset(Asset asset) {
         try {
-            boolean flag=stuService.addStu(student);
+            boolean flag=iAssetsService.addAsset(asset);
             if (flag){
+                AssetLog assetLog=new AssetLog();
+                assetLog.setRfid(asset.getRfid());
+                assetLog.setStatus(asset.getStatus());
+                boolean b=iAssetsService.addAssetLog(assetLog);
+                if (b){
+                    System.out.println("添加设备记录成功");
+                }
                 return ajaxReturn(true, "添加成功");
             }
             return ajaxReturn(false, "添加失败");
@@ -53,15 +59,15 @@ public class StudentController extends BaseController{
         return ajaxReturn(false, "服务器发生错误，请稍后再试");
     }
 
-    @RequestMapping(path="/loadStu.do", produces="application/json;charset=utf-8")
-    public Student loadAsset(String id) {
-        return stuService.getStu(id);
+    @RequestMapping(path="/loadAsset.do", produces="application/json;charset=utf-8")
+    public Asset loadAsset(String id) {
+        return iAssetsService.getAsset(id);
     }
 
-    @RequestMapping(path="/updateStu.do", produces="application/json;charset=utf-8")
-    public Map updateAsset(Student student) {
+    @RequestMapping(path="/updateAsset.do", produces="application/json;charset=utf-8")
+    public Map updateAsset(Asset asset) {
         try {
-            stuService.updateStu(student);
+            iAssetsService.updateAsset(asset);
             return ajaxReturn(true, "修改成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,10 +75,10 @@ public class StudentController extends BaseController{
         return ajaxReturn(false, "服务器发送异常，请稍后再试");
     }
 
-    @RequestMapping(path="/delStu.do", produces="application/json;charset=utf-8")
+    @RequestMapping(path="/delAsset.do", produces="application/json;charset=utf-8")
     public Map delAsset(String id) {
         try {
-            stuService.deleteStu(id);
+            iAssetsService.deleteAsset(id);
             return ajaxReturn(true, "删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,35 +87,42 @@ public class StudentController extends BaseController{
     }
 
 
-    /*
-    导出学生表
+    @RequestMapping(path="/getAssetLog.do", produces="application/json;charset=utf-8")
+    public PageModel getAssetLog(Integer page, Integer rows) {
+        System.out.println("page = " + page + ", rows = " + rows);
+        return iAssetsService.findAssetLog(page,rows);
+    }
+
+
+    /**
+     *导出设备表
      */
-    @RequestMapping(path = "/exportStu.do")
-    public void exportStudent(HttpServletResponse response) throws Exception {
+    @RequestMapping(path = "/exportAsset.do")
+    public void exportAsset(HttpServletResponse response) throws Exception {
         // 设置响应头
         response.setHeader("Content-Disposition", "attachement;filename="
-                + URLEncoder.encode("学生统计表.xls", "UTF-8"));
+                + URLEncoder.encode("设备统计表.xls", "UTF-8"));
         // 创建工作簿
         HSSFWorkbook wb = new HSSFWorkbook();
         // 创建工作表
-        HSSFSheet sheet = wb.createSheet("学生统计表");
+        HSSFSheet sheet = wb.createSheet("设备统计表");
         // 创建标题行
         HSSFRow row = sheet.createRow(0);
         row.createCell(0).setCellValue("编号");
-        row.createCell(1).setCellValue("学生姓名");
-        row.createCell(2).setCellValue("学号");
+        row.createCell(1).setCellValue("设备名称");
+        row.createCell(2).setCellValue("设备号");
         row.createCell(3).setCellValue("RFID");
         row.createCell(4).setCellValue("状态");
-        //查询学生
-        List<Student> students =stuService.findStu();
-        for (int i = 1; i <= students.size(); i++) {
-            Student student = students.get(i - 1);
+        //查询设备
+        List<Asset> assets = iAssetsService.findAsset();
+        for (int i = 1; i <= assets.size(); i++) {
+            Asset asset = assets.get(i - 1);
             row = sheet.createRow(i);
-            row.createCell(0).setCellValue(student.getId());
-            row.createCell(1).setCellValue(student.getName());
-            row.createCell(2).setCellValue(student.getNumber());
-            row.createCell(3).setCellValue(student.getRfid());
-            row.createCell(4).setCellValue(student.getStatus()==1 ? "已打卡" : "未打卡");
+            row.createCell(0).setCellValue(asset.getId());
+            row.createCell(1).setCellValue(asset.getName());
+            row.createCell(2).setCellValue(asset.getNumber());
+            row.createCell(3).setCellValue(asset.getRfid());
+            row.createCell(4).setCellValue(asset.getStatus() ? "可用" : "不可用");
         }
         // 把工作簿输出
         wb.write(response.getOutputStream());
@@ -118,10 +131,10 @@ public class StudentController extends BaseController{
     }
 
     /*
-       导入学生表
+       导入设备表
      */
-    @RequestMapping(path="/importStu.do", produces="application/json;charset=utf-8")
-    public Map importStudent(HttpServletRequest request, MultipartFile file) {
+    @RequestMapping(path="/importAsset.do", produces="application/json;charset=utf-8")
+    public Map importAsset(HttpServletRequest request, MultipartFile file) {
         HSSFWorkbook wb = null;
         try {
             //判断上传文件类型
@@ -135,24 +148,29 @@ public class StudentController extends BaseController{
             HSSFSheet sheet = wb.getSheetAt(0);
             //第三步：获取总的行数；
             int lastRowNum = sheet.getLastRowNum();
-            //该集合用于读取到的学生
-//            List<Student> students = new ArrayList<Student>();
-            List<Student> students = new ArrayList<>();
-            Integer status=0;
-            for (int i = 1; i <= lastRowNum; i++) {
+            System.out.println("lastRowNum : "+lastRowNum);
+            //该集合用于读取到的设备
+            List<Asset> assets = new ArrayList<Asset>();
+            Asset a=null;
+            boolean status = false;
+            for (int i = 1;i <= lastRowNum; i++) {
                 HSSFRow row = sheet.getRow(i); //获取行
                 String id = row.getCell(0).getStringCellValue(); //获取单元格数据，下标从0开始
                 String name = row.getCell(1).getStringCellValue();
                 String number = row.getCell(2).getStringCellValue();
                 String rfid = row.getCell(3).getStringCellValue();
-                String statu = row.getCell(4).getStringCellValue();
-                if (statu.equals("已打卡")){
-                    status=1;
+
+                String s=row.getCell(4).getStringCellValue();
+                if (s.equals("可用")){
+                    status=true;
                 }
-                students.add(new Student(id, name, number, rfid, status));
+
+                a=new Asset(id, name, number, rfid, status);
+                assets.add(a);
+                System.out.println(a);
             }
-            //第六步：把获取到的联系人的数据保存数据库中；
-            boolean flag=stuService.addStudent(students);
+            //第六步：数据保存数据库中；
+            boolean flag=iAssetsService.addAsset(assets);
             if (flag){
                 return ajaxReturn(true, "导入成功");
             }

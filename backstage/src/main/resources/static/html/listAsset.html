@@ -32,7 +32,7 @@
                         }
 						//初始化文件上传表单
                         $("#importForm").ajaxSubmit({
-                            url: "../admin/importAsset.do",
+                            url: "../asset/importAsset.do",
                             type: "post",
                             dataType: "json",
                             async: true,
@@ -56,7 +56,7 @@
             });
 			//初始化表格
 			$('#tt').datagrid({    
-			    url:'../admin/getAsset.do',
+			    url:'../asset/getAsset.do',
 			    fit:false,
 			    columns:[[    
 			        {field:'id', title:'编号', width:300, align:'left'},    
@@ -74,7 +74,7 @@
 				    	//打开对话框
 				    	$("#editWindow").dialog('open');
 			    		//设置URL
-				    	url = '../admin/addAsset.do';
+				    	url = '../asset/addAsset.do';
 			    	}
 			    }, { 
 			    	iconCls: 'icon-edit',
@@ -90,10 +90,10 @@
 			    			//清空表单
 			    			$("#editForm").form('clear');
 			    			//加载表单数据
-			    			$("#editForm").form('load', '../admin/loadAsset.do?id=' + row.id);
+			    			$("#editForm").form('load', '../asset/loadAsset.do?id=' + row.id);
 			    		}
 			    		//设置URL
-			    		url = '../admin/updateAsset.do';
+			    		url = '../asset/updateAsset.do';
 			    	}
 			    }, { 
 			    	iconCls: 'icon-remove',
@@ -105,7 +105,7 @@
 			    		} else {
 			    			$.messager.confirm("警告", "确定要删除吗？", function(rt) {
 			    				if (rt) {
-			    					$.post('../admin/delAsset.do', {id: row.id}, function(rt) {
+			    					$.post('../asset/delAsset.do', {id: row.id}, function(rt) {
 					    				if (rt.status) {
 					    					//刷新表格数据
 					    					$("#tt").datagrid('reload');
@@ -120,7 +120,7 @@
                     iconCls: 'icon-print',
                     text: '导出Excel',
                     handler: function() {
-                        window.open("../admin/exportAsset.do");
+                        window.open("../asset/exportAsset.do");
                     }
                 },{
                     iconCls: 'icon-back',

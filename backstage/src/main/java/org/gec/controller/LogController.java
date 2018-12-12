@@ -62,6 +62,7 @@ public class LogController  extends BaseController{
     public PageModel getAttendLog(Integer page, Integer rows) {
         int total = attendLogService.getTotal();
         List<Attendance> data = attendLogService.findAttendLog(page, rows);
+
         PageModel pagemodel = new PageModel();
         pagemodel.setTotal(total);
         pagemodel.setRows(data);

@@ -8,11 +8,18 @@
     <script src="resources/js/jquery-2.1.1.min.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/bootstrap-datetimepicker.js"></script>
+    <script src="resources/js/pager.js"></script>
+
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
     <!--<script src="resources/js/bootstrap-datetimepicker.js"></script>-->
     <script src="resources/js/request.js"></script>
+
 </head>
 <body>
-<div id="wrapper" class="wrapper">
+<div id="wrapper" class="wrapper" style="text-align: center">
     <h1>打卡详情查询</h1>
     <div>
         <div class="form-group" style="width: 150px; display: inline-block">
@@ -25,10 +32,10 @@
             <input id="latest_time" size="16" type="text" readonly class="form-control"
                    data-date-format="yyyy-mm-dd HH:mm:ss" />
         </div>
-        <button id="search" class="btn btn-default" type="button">查询</button>
-        <button id="reload" type="button" class="btn btn-default">刷新</button>
-        <button id="goback" type="button" class="btn btn-default">☇返回上一页</button>
-        <button id="gohome" type="button" class="btn btn-default">☇返回首页</button>
+        <button id="search" class="btn btn-info" type="button">查询</button>
+        <button id="reload" type="button" class="btn btn-info">刷新</button>
+        <button id="goback" type="button" class="btn btn-info">☇返回上一页</button>
+        <button id="gohome" type="button" class="btn btn-info">☇返回首页</button>
     </div>
 </div>
 
@@ -43,7 +50,14 @@
         <tbody id="tbody"></tbody>
     </table>
 </div>
+
+<div style="text-align: center">
+    <div id="pageBar"></div>
+</div>
+
 <script type="text/javascript">
+    var res;
+
     $(function() {
         //初始化日历输入框
         $('#earliest_time').datetimepicker({
@@ -90,29 +104,78 @@
     // 查询
     function getData() {
         //把参数封装成json对象
-        var data = {
-            rfid: Request['rfid'],
-            startTime: $('#earliest_time').val(), //开始查询时间
-            endTime: $('#latest_time').val() //结束时间
+        var startTime = $("#earliest_time").val();
+        var endTime = $("#latest_time").val();
+        var curPage = Request['page'];
+        if (curPage == null) {
+            curPage = 1;
+        }
+        var params = {
+            'page': curPage,
+            'rfid': Request['rfid'],
+            'startTime': startTime,
+            'endTime': endTime
         };
-        //异步请求获取考勤数据
-        $.ajax({
-            type: 'GET',
-            url: 'getAttendance',
-            data: data,
-            success: function(res) {
-                var json = $.parseJSON(res);
-                var html = "";
-                $.each(json, function(index, item) {
-                    html += `<tr><td>` + item.id + `</td>
-                        <td>` + item.rfid + `</td>
-                        <td>` + toDate(item.createtime) + `</td>
-                        <td>` + (item.status ? "已签到" : "离开") + `</td>
-                        </tr>`;
-                });
-                $('#assetTab').find('tbody[id=tbody]').html(html);
+        $.post('getAttendance', params, function(json) { //data是封装了PageModel数据的json对象
+            console.log(json);
+            res=json;
+            var html = "";
+            //获取考勤记录，并构建表格体的内容
+            $.each(json.data, function(index, item) {  //idx代表遍历元素的下标，item代表遍历元素本身
+                html += `<tr><td>` + item.id + `</td>
+			<td>` + item.rfid + `</td>
+			<td>` + toDate(item.createtime) + `</td>
+			<td>` + (item.status ? "已签到" : "未签到") + `</td>
+			</tr>`;
+            });
+            $('#assetTab').find('tbody[id=tbody]').html(html);
+
+            //初始化分页栏
+            gec.pager("eleId", {
+                pageIndex: res.curPage,
+                pageSize: res.pageSize,
+                recordCount: res.total,
+                submitUrl: 'attendance.html?rfid=' + Request['rfid'] + '&page={0}'
+            });
+
+
+            //创建分页栏
+            var curPage = json.curPage; //当前第几页
+            var pageSize = json.pageSize; //每页显示记录数
+            var total = json.total; //总记录数
+            var totalPage = json.totalPage; //总页数
+            var pageElement = '';
+            //如果当前是第一页
+            if (curPage == 1) {
+                pageElement += '【首页】【上一页】';
+                pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
+                pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
+            } else if (curPage == totalPage) {
+                pageElement += '【<a href="javascript:jump(1)">首页</a>】';
+                pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
+                pageElement += '【下一页】【尾页】';
+            } else {
+                pageElement += '【<a href="javascript:jump(1)">首页</a>】';
+                pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
+                pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
+                pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
             }
-        });
+            pageElement += "当前显示第" + curPage + "/" + totalPage + "页";
+            pageElement += "跳到<input type='text' id='cur_page' size=2/>页 <input type='button' id='save_btn' value='确定'/>";
+            //把分页的HTML显示在pageBar标签里面
+            $("#pageBar").html(pageElement);
+            //为确定按钮绑定单击事件
+            $("#save_btn").click(function() {
+                var page = $("#cur_page").val(); //获取用户输入的页码
+                var regex = /^\d+$/; //创建正则表达式对象
+                if (!regex.test(page) || page < 1 || page > totalPage) {
+                    $("#cur_page").val('');
+                    alert("无效页码！");
+                    return;
+                }
+                jump(page);
+            });
+        }, "json");
     }
 
     function toDate(time) {
@@ -139,6 +202,10 @@
             sec = "0" + sec;
         }
         return year + "年" + month + "月" + date + "日 " + hour + ":" + min + ":" + sec;
+    }
+
+    function jump(page){
+        location = "attendance.html?rfid=" + Request['rfid'] + '&page=' + page;
     }
 
     $(function() {

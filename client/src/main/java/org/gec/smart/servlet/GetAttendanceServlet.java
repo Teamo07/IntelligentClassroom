@@ -2,6 +2,7 @@ package org.gec.smart.servlet;
 
 import com.alibaba.fastjson.JSON;
 import org.gec.smart.bean.Attendance;
+import org.gec.smart.bean.PageModel;
 import org.gec.smart.util.DbUtil;
 
 import javax.servlet.ServletException;
@@ -32,10 +33,20 @@ public class GetAttendanceServlet extends HttpServlet {
         String rfid = req.getParameter("rfid");
         String startTime = req.getParameter("startTime");
         String endTime = req.getParameter("endTime");
+
+        int rows =10;
+        if(req.getParameter("rows") != null){
+            rows = Integer.parseInt(req.getParameter("rows"));
+        }
+        int page = 1;
+        if(req.getParameter("page") != null){
+            page = Integer.parseInt(req.getParameter("page"));
+        }
         //根据参数执行查询
-        List<Attendance> attendances = findAttendance(rfid, startTime, endTime);
+        PageModel pageModel = findAttendance(rfid, startTime, endTime, page, rows);
+
         //把List集合转换成JSON格式字符串
-        String json = JSON.toJSONString(attendances);
+        String json = JSON.toJSONString(pageModel);
         //处理响应的中文乱码问题
         resp.setContentType("text/html;charset=utf-8");
         //向浏览器输入内容
@@ -47,32 +58,23 @@ public class GetAttendanceServlet extends HttpServlet {
      * @param rfid 学生姓名
      * @param startTime 开始查询时间
      * @param endTime 结束查询时间
-     * @return
+     * @param page 第几页
+     * @param rows 每页显示记录数
+     * @return 返回一个分页对象
      */
-    private List<Attendance> findAttendance(String rfid, String startTime, String endTime) {
+    private PageModel findAttendance(String rfid, String startTime
+            , String endTime, int page, int rows) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
             conn = DbUtil.getConnection();
-            System.out.println("学生考勤查询数据库连接获取成功，开始查询");
-            StringBuilder sql = new StringBuilder("select * from attendance where rfid = ? ");
-            //StringBuilder sql = new StringBuilder("select * from attendance where 1=1 ");
-            List params = new ArrayList();
-            if (startTime != null && !"".equals(startTime)) {
-                sql.append(" and createtime >= ? ");
-                params.add(startTime);
-            }
-            if (endTime != null && !"".equals(endTime)) {
-                sql.append(" and createtime <= ? ");
-                params.add(endTime);
-            }
+            //执行查询
+            StringBuilder sql = new StringBuilder("select * ");
+            sql.append(getSql(rfid, startTime, endTime));
             sql.append(" order by createtime desc ");
+            sql.append(" limit " + page + ", " + rows);
             pstmt = conn.prepareStatement(sql.toString());
-            pstmt.setString(1, rfid);
-            for (int i = 1; i <= params.size(); i++) {
-                pstmt.setObject(i + 1, params.get(i - 1));
-            }
             rs = pstmt.executeQuery();
             List<Attendance> list = new ArrayList<Attendance>();
             while (rs.next()) {
@@ -81,13 +83,48 @@ public class GetAttendanceServlet extends HttpServlet {
                 boolean status = rs.getBoolean("status");
                 list.add(new Attendance(id, rfid, createtime, status));
             }
-            return list;
+            //查询总的结果数
+            StringBuilder sql2 = new StringBuilder("select count(*) ");
+            sql2.append(getSql(rfid, startTime, endTime));
+            pstmt = conn.prepareStatement(sql2.toString());
+            rs = pstmt.executeQuery();
+            int total = rs.next() ? rs.getInt(1) : 0;
+            //把结果封装成PageModel对象
+            PageModel pageModel = new PageModel();
+            pageModel.setData(list);
+            pageModel.setCurPage(page);
+            pageModel.setPageSize(rows);
+            pageModel.setTotal(total);
+            int totalPage= total%rows == 0 ? total/rows : (total/rows)+1;
+            pageModel.setTotalPage(totalPage);
+            return pageModel;
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         } finally {
             DbUtil.release(rs, pstmt, conn);
         }
     }
+
+    /**
+     * 构造查询的SQL语句
+     * @param rfid 学生姓名
+     * @param startTime 开始查询时间
+     * @param endTime 结束查询时间
+     * @return
+     */
+    private String getSql(String rfid, String startTime, String endTime) {
+        StringBuilder sql = new StringBuilder(" from attendance where rfid = '" + rfid + "'");
+        List params = new ArrayList();
+        if (startTime != null && !"".equals(startTime)) {
+            sql.append(" and createtime >= " + startTime);
+        }
+        if (endTime != null && !"".equals(endTime)) {
+            sql.append(" and createtime <= " + endTime);
+        }
+        return sql.toString();
+    }
+
 
 
 }

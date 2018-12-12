@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
+    <script src="resources/js/jquery-2.1.1.min.js"></script>
+
+
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <h1>学生信息查询</h1>
+    <div>
+        <input id="name" type="text" class="form-control"
+               placeholder="请输入学生姓名" style="width: 150px; display: inline-block" />
+        <input id="number" type="text" class="form-control"
+               placeholder="请输入学生号" style="width: 150px; display: inline-block" />
+        <button id="search" class="btn btn-default" type="button">查询</button>
+        <button id="reload" type="button" class="btn btn-default">刷新</button>
+        <button id="goadd" type="button" class="btn btn-default">☇
+            添加</button>
+        <button id="gohome" type="button" class="btn btn-default">☇
+            返回首页</button>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <table id="assetTab" class="table">
+        <thead>
+        <th>ID</th>
+        <th>学生</th>
+        <th>学生号</th>
+        <th>RFID</th>
+        <th>操作</th>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        // 点击查询
+        $('#search').on('click', function() {
+            getData();
+        });
+
+        // 点击刷新
+        $('#reload').on('click', function() {
+            window.location.reload();
+        });
+
+        $('#goadd').on('click', function() {
+            window.location.href = 'addstudent.html';
+        });
+
+        // 点击返回
+        $('#gohome').on('click', function() {
+            window.location.href = 'index.html';
+        })
+
+        //在页面加载完成后调用getData方法，初始化表格
+        getData();
+
+    });
+
+    function getData() {
+        $.ajax({
+            type: 'GET',
+            url: 'getStudent',
+            data: getJsonData(),
+            success: function(res) {
+                var json = $.parseJSON(res);
+                var html = "";
+                $.each(json, function(index, item) {
+                    html += `<tr><td>` + item.id + `</td>
+                    <td>` + item.name + `</td>
+                    <td>` + item.number + `</td>
+                    <td>` + item.rfid + `</td>
+                    <td><a href="attendance.html?rfid=` + item.rfid + `">查看打卡记录</a></td>
+                    </tr>`;
+                });
+                $('#assetTab').find('tbody[id=tbody]').html(html);
+            },
+            error: function(err) {
+                alert('查询失败');
+            }
+        });
+    }
+
+    // 查询条件
+    function getJsonData() {
+        var data = {
+            name: $('#name').val(),
+            number: $('#number').val()
+        };
+        return data;
+    }
+
+
+</script>
+</body>
+</html>

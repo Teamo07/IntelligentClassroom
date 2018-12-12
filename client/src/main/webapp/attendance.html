@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
+    <link href="resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" />-->
+    <link href="resources/js/bootstrap-datetimepicker.js" rel="stylesheet" media="screen" />
+    <script src="resources/js/jquery-2.1.1.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+    <script src="resources/js/bootstrap-datetimepicker.js"></script>
+    <!--<script src="resources/js/bootstrap-datetimepicker.js"></script>-->
+    <script src="resources/js/request.js"></script>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <h1>打卡详情查询</h1>
+    <div>
+        <div class="form-group" style="width: 150px; display: inline-block">
+            <label for="name">最早时间:</label>
+            <input id="earliest_time" size="16" type="text" readonly class="form-control"
+                   data-date-format="yyyy-mm-dd HH:mm:ss" />
+        </div>
+        <div class="form-group" style="width: 150px; display: inline-block">
+            <label for="name">最晚时间:</label>
+            <input id="latest_time" size="16" type="text" readonly class="form-control"
+                   data-date-format="yyyy-mm-dd HH:mm:ss" />
+        </div>
+        <button id="search" class="btn btn-default" type="button">查询</button>
+        <button id="reload" type="button" class="btn btn-default">刷新</button>
+        <button id="goback" type="button" class="btn btn-default">☇返回上一页</button>
+        <button id="gohome" type="button" class="btn btn-default">☇返回首页</button>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <table id="assetTab" class="table">
+        <thead>
+        <th>ID</th>
+        <th>RFID</th>
+        <th>打卡时间</th>
+        <th>状态</th>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(function() {
+        //初始化日历输入框
+        $('#earliest_time').datetimepicker({
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+
+        $('#latest_time').datetimepicker({
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+
+        // 点击查询
+        $('#search').on('click', function() {
+            getData();
+        });
+
+        // 点击刷新
+        $('#reload').on('click', function() {
+            window.location.reload();
+        });
+
+        // 点击返回
+        $('#goback').on('click', function() {
+            window.location.href = 'student.html';
+        });
+
+        // 点击首页
+        $('#gohome').on('click', function() {
+            window.location.href = 'index.html';
+        });
+    });
+
+    // 查询
+    function getData() {
+        //把参数封装成json对象
+        var data = {
+            rfid: Request['rfid'],
+            startTime: $('#earliest_time').val(), //开始查询时间
+            endTime: $('#latest_time').val() //结束时间
+        };
+        //异步请求获取考勤数据
+        $.ajax({
+            type: 'GET',
+            url: 'getAttendance',
+            data: data,
+            success: function(res) {
+                var json = $.parseJSON(res);
+                var html = "";
+                $.each(json, function(index, item) {
+                    html += `<tr><td>` + item.id + `</td>
+                        <td>` + item.rfid + `</td>
+                        <td>` + toDate(item.createtime) + `</td>
+                        <td>` + (item.status ? "进入" : "离开") + `</td>
+                        </tr>`;
+                });
+                $('#assetTab').find('tbody[id=tbody]').html(html);
+            }
+        });
+    }
+
+    function toDate(time) {
+        var d = new Date(time);
+        var year = d.getFullYear(); //获取年份
+        var month = d.getMonth() + 1; //获取月份
+        if (month < 10) {
+            month = "0" + d.getMonth();
+        }
+        var date = d.getDate(); //获取日
+        if (date < 10) {
+            date = "0" + date;
+        }
+        var hour = d.getHours(); //获取小时
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+        var min = d.getMinutes(); //获取分钟
+        if (min < 10) {
+            min = "0" + min;
+        }
+        var sec = d.getSeconds(); //获取秒
+        if (sec < 10) {
+            sec = "0" + sec;
+        }
+        return year + "年" + month + "月" + date + "日 " + hour + ":" + min + ":" + sec;
+    }
+
+    $(function() {
+        getData();
+    });
+
+
+
+</script>
+</body>
+</html>

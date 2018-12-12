@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script type="text/javascript" src="resources/js/jquery-2.1.1.min.js"></script>
+
+    <title>绑定学生RFID</title>
+</head>
+<body>
+<div style="position:absolute;top:22%;left:40%;padding:30px;border:1px solid #ccc;">
+    <p>id：<input id="pollParams" placeholder="当前id" type="text" /></p>
+    <button onclick="doRoll()"id="rollBtn">开始轮询</button>
+    <p>姓名：<input id="studentName" name="studentName"
+                 placeholder="请输入学生名" type="text" /></p>
+    <p>学号：<input id="studentNum" name="studentNum"
+                 placeholder="请输入学生号" type="text" /></p>
+    <input id="submit" type="button" value="提交" />
+    <input id="return" type="button" value="返回" />
+</div>
+
+<script>
+    var timer; //定义全局的定时器变量。
+
+    //开始轮询
+    function doRoll() {
+        if ($("#rollBtn").html() == '开始轮询') {
+            $('#pollParams').val(""); //重置id输入框
+            timer = setInterval(getData, 200); //启动定时器
+            $("#rollBtn").html('停止轮询');
+        } else {
+            clearInterval(timer); //停止定时器
+            $("#rollBtn").html('开始轮询');
+        }
+    }
+
+    //提交按钮
+    $('#submit').click(function() {
+        if (!$('#pollParams').val()) {
+            alert('RFID不能为空');
+            return;
+        }
+        var data = {
+            name : $('#studentName').val(),
+            number : $('#studentNum').val(),
+            rfid : $('#pollParams').val()
+        };
+        $.post('addStudent', data, function(rt) {
+            if (rt.status) {
+                //重置输入框
+                $('#studentName').val(''),
+                    $('#studentNum').val(''),
+                    $('#pollParams').val('')
+            }
+            alert(rt.message);
+        }, "json");
+    });
+
+    //后退按钮
+    $('#return').click(function() {
+        location = "student.html";
+    });
+
+
+    //轮询获取数据
+    function getData() {
+        $.ajax({
+            type : 'get',
+            url : 'getRfid',
+            success : function(msg) {
+                if (msg != '') {
+                    //把数据msg填充到id输入框
+                    $('#pollParams').val(msg);
+                    //停止轮询
+                    clearInterval(timer);
+                    $("#rollBtn").html('开始轮询');
+                }
+            }
+        });
+    }
+
+
+
+</script>
+
+
+</body>
+</html>

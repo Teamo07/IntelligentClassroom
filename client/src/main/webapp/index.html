@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/mine.css">
 <script src="resources/js/jquery-2.1.1.min.js"></script>
 <script src="resources/js/stopExecutionOnTimeout.js?t=1"></script>
+
 </head>
 <body>
 	<article class="htmleaf-container">
@@ -23,7 +24,7 @@
 				<div id="training" class='col-xs-4'>物联网基础共享远程实训平台</div>
 				<div id="asset" class='col-xs-4'>资产管理统计系统</div>
 				<div id="house" class='col-xs-3'>智慧控制系统</div>
-				<div id="attendance" class='col-xs-3'>智能考勤系统</div>
+				<div id="student" class='col-xs-3'>智能考勤系统</div>
 				<div id="#" class='col-xs-3'>录播系统</div>
 			</div>
 		</div>
@@ -34,14 +35,14 @@
 		 
 		/* $("#training").on("click",function(){
 			window.location = "training";
-		}); */ 
-		
+		}); */
+
+        $("#student").on("click",function(){ //智能考勤系统
+            window.location = "student.html";
+        });
+
 		$("#house").on("click",function(){
 			window.location = "house.html";
-		});
-		
-		$("#attendance").on("click",function(){
-			//window.location = "attendance";
 		});
 		
 		$("#asset").on("click",function(){

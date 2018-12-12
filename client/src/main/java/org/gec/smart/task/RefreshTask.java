@@ -1,10 +1,8 @@
 package org.gec.smart.task;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -24,27 +22,73 @@ import org.gec.smart.util.TCPUtil;
 	ctrl + shift + o：一次性导入所有的包。
 */
 public class RefreshTask extends TimerTask {
+
+	public static ServerSocket server = null;
 	public static Socket socket = null; //传感器的Socket
 	public static DataOutputStream dos = null;
 	public static DataInputStream dis = null;
+	public static String rfid;
 	
 	public static float temperature = 0; //温度
 	public static float humidity = 0; //湿度 
 	
 	@Override
 	public void run(){
-		if(socket == null){
-			System.out.println("task execute24.");
+//		if(socket == null){
+//			System.out.println("task execute.");
+//			new Thread(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					getData();
+//				}
+//
+//			}).start();
+//		}
+		//启动服务端
+		if (server == null) {
+			System.out.println("服务端启动。。。。");
 			new Thread(new Runnable() {
-				
+
+				//线程要执行的任务代码
 				@Override
 				public void run() {
-					getData();
+					getCardData();
 				}
-				
+
 			}).start();
 		}
+
 	}
+
+	//获取RFID设备发送过来的数据
+	private void getCardData() {
+		System.out.println("----------card服务端开启------------");
+		Socket sk = null;
+		try {
+			server = new ServerSocket(2018);
+			while (true) {
+				sk = server.accept();
+				new ServerSocketThread(sk).start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (socket != null) {
+				try {
+					socket.close();
+				} catch (IOException e) {
+				}
+			}
+			if (server != null) {
+				try {
+					server.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
+
 	
 	private void getData(){
 		try {

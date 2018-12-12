@@ -14,6 +14,45 @@
     <url-pattern>/refreshData</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>GetStudentServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.GetStudentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetStudentServlet</servlet-name>
+    <url-pattern>/getStudent</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>GetRfidServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.GetRfidServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetRfidServlet</servlet-name>
+    <url-pattern>/getRfid</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddStudentServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.AddStudentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddStudentServlet</servlet-name>
+    <url-pattern>/addStudent</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>GetAttendanceServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.GetAttendanceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetAttendanceServlet</servlet-name>
+    <url-pattern>/getAttendance</url-pattern>
+  </servlet-mapping>
+
+
+
+
 
   <servlet>
     <!-- Servlet的名字 -->

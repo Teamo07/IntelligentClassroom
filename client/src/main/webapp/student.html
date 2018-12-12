@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        p{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="wrapper" class="wrapper" style="text-align: center">
+    <h1>学生信息查询</h1>
+    <div>
+        <input id="name" type="text" class="form-control"
+               placeholder="请输入学生姓名" style="width: 150px; display: inline-block" />
+        <input id="number" type="text" class="form-control"
+               placeholder="请输入学生号" style="width: 150px; display: inline-block" />
+        <button id="search" class="btn btn-info" type="button">查询</button>
+        <button id="reload" type="button" class="btn btn-info">刷新</button>
+        <!-- 按钮：用于打开模态框 -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#add">
+            添加
+        </button>
+        <button id="gohome" type="button" class="btn btn-info">☇
+            返回首页</button>
+        <!-- 模态框 -->
+        <div class="modal fade" id="add">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">添加学生信息</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- 模态框主体 -->
+                    <div class="modal-body" style="text-align: center">
+                        <p>ID：<input id="pollParams" placeholder="当前id" type="text" style="margin-left: 20px"/></p>
+                        <button onclick="doRoll()"id="rollBtn">开始轮询</button>
+                        <p>姓名：<input id="studentName" name="studentName"
+                                     placeholder="请输入学生名" type="text" /></p>
+                        <p>学号：<input id="studentNum" name="studentNum"
+                                     placeholder="请输入学生号" type="text" /></p>
+                        <input id="submit" type="button" value="提交" />
+                    </div>
+
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <table id="assetTab" class="table">
+        <thead>
+        <th>ID</th>
+        <th>学生</th>
+        <th>学生号</th>
+        <th>RFID</th>
+        <th>操作</th>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        // 点击查询
+        $('#search').on('click', function() {
+            getData();
+        });
+
+        // 点击刷新
+        $('#reload').on('click', function() {
+            window.location.reload();
+        });
+
+
+        // 点击返回
+        $('#gohome').on('click', function() {
+            window.location.href = 'index.html';
+        })
+
+        //在页面加载完成后调用getData方法，初始化表格
+        getData();
+
+    });
+
+    var timer; //定义全局的定时器变量。
+
+    //开始轮询
+    function doRoll() {
+        if ($("#rollBtn").html() == '开始轮询') {
+            $('#pollParams').val(""); //重置id输入框
+            timer = setInterval(getRFID, 200); //启动定时器
+            $("#rollBtn").html('停止轮询');
+        } else {
+            clearInterval(timer); //停止定时器
+            $("#rollBtn").html('开始轮询');
+        }
+    }
+
+    //提交按钮
+    $('#submit').click(function() {
+        if (!$('#pollParams').val()) {
+            alert('RFID不能为空');
+            return;
+        }
+        var data = {
+            name : $('#studentName').val(),
+            number : $('#studentNum').val(),
+            rfid : $('#pollParams').val()
+        };
+        $.post('addStudent', data, function(rt) {
+            if (rt.status) {
+                //重置输入框
+                $('#studentName').val(''),
+                    $('#studentNum').val(''),
+                    $('#pollParams').val('')
+            }
+            alert(rt.message);
+        }, "json");
+    });
+
+
+
+    //轮询获取数据
+    function getRFID() {
+        $.ajax({
+            type : 'get',
+            url : 'getRfid',
+            success : function(msg) {
+                if (msg != '') {
+                    //把数据msg填充到id输入框
+                    $('#pollParams').val(msg);
+                    //停止轮询
+                    clearInterval(timer);
+                    $("#rollBtn").html('开始轮询');
+                }
+            }
+        });
+    }
+
+    function getData() {
+        $.ajax({
+            type: 'GET',
+            url: 'getStudent',
+            data: getJsonData(),
+            success: function(res) {
+                var json = $.parseJSON(res);
+                var html = "";
+                $.each(json, function(index, item) {
+                    html += `<tr><td>` + item.id + `</td>
+                    <td>` + item.name + `</td>
+                    <td>` + item.number + `</td>
+                    <td>` + item.rfid + `</td>
+                    <td><a href="attendance.html?rfid=` + item.rfid + `">查看打卡记录</a></td>
+                    </tr>`;
+                });
+                $('#assetTab').find('tbody[id=tbody]').html(html);
+            },
+            error: function(err) {
+                alert('查询失败');
+            }
+        });
+    }
+
+    // 查询条件
+    function getJsonData() {
+        var data = {
+            name: $('#name').val(),
+            number: $('#number').val()
+        };
+        return data;
+    }
+
+
+</script>
+</body>
+</html>

@@ -9,10 +9,10 @@
         <property name="maxStatements">200</property>
     </default-config>
 
-    <!--配置连接池mysql-->
+    <!--配置连接池mysql   &amp;转义符（转义&） -->
     <named-config name="mysql">
         <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
-        <property name="jdbcUrl">jdbc:mysql://47.106.10.184:3306/IntelligentClassroom?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Hongkong </property>
+        <property name="jdbcUrl">jdbc:mysql://47.106.10.184:3306/IntelligentClassroom?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Hongkong&amp;useSSL=false</property>
         <property name="user">team</property>
         <property name="password">Ruanjian1150+-.</property>
         <property name="initialPoolSize">10</property>

@@ -67,13 +67,16 @@ public class GetAttendanceServlet extends HttpServlet {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+
+        int start = (page - 1) * rows;
         try {
             conn = DbUtil.getConnection();
             //执行查询
             StringBuilder sql = new StringBuilder("select * ");
             sql.append(getSql(rfid, startTime, endTime));
             sql.append(" order by createtime desc ");
-            sql.append(" limit " + page + ", " + rows);
+            sql.append(" limit " + start + ", " + rows);
+            System.out.println("sql : " + sql);
             pstmt = conn.prepareStatement(sql.toString());
             rs = pstmt.executeQuery();
             List<Attendance> list = new ArrayList<Attendance>();

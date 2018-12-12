@@ -34,17 +34,17 @@ public class RefreshTask extends TimerTask {
 	
 	@Override
 	public void run(){
-//		if(socket == null){
-//			System.out.println("task execute.");
-//			new Thread(new Runnable() {
-//
-//				@Override
-//				public void run() {
-//					getData();
-//				}
-//
-//			}).start();
-//		}
+		if(socket == null){
+			System.out.println("task execute.");
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					getData();
+				}
+
+			}).start();
+		}
 		//启动服务端
 		if (server == null) {
 			System.out.println("服务端启动。。。。");

@@ -34,13 +34,13 @@ public class StudentController extends BaseController{
     private IStuService stuService;
 
     @RequestMapping(path="/getStu.do", produces="application/json;charset=utf-8")
-    public PageModel getAsset(Integer page, Integer rows) {
+    public PageModel getStu(Integer page, Integer rows) {
         System.out.println("page = " + page + ", rows = " + rows);
         return stuService.findStu(page, rows);
     }
 
     @RequestMapping(path="/addStu.do", produces="application/json;charset=utf-8")
-    public Map addAsset(Student student) {
+    public Map addStu(Student student) {
         try {
             boolean flag=stuService.addStu(student);
             if (flag){
@@ -54,12 +54,12 @@ public class StudentController extends BaseController{
     }
 
     @RequestMapping(path="/loadStu.do", produces="application/json;charset=utf-8")
-    public Student loadAsset(String id) {
+    public Student loadStu(String id) {
         return stuService.getStu(id);
     }
 
     @RequestMapping(path="/updateStu.do", produces="application/json;charset=utf-8")
-    public Map updateAsset(Student student) {
+    public Map updateStu(Student student) {
         try {
             stuService.updateStu(student);
             return ajaxReturn(true, "修改成功");
@@ -70,7 +70,7 @@ public class StudentController extends BaseController{
     }
 
     @RequestMapping(path="/delStu.do", produces="application/json;charset=utf-8")
-    public Map delAsset(String id) {
+    public Map delStu(String id) {
         try {
             stuService.deleteStu(id);
             return ajaxReturn(true, "删除成功");
@@ -79,7 +79,6 @@ public class StudentController extends BaseController{
         }
         return ajaxReturn(false, "服务器发送异常，请稍后再试");
     }
-
 
     /*
     导出学生表

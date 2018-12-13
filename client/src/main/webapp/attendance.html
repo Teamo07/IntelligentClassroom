@@ -64,6 +64,15 @@
             startView: 2,
             minView: 2,
             forceParse: 0
+        }).on("changeDate",function () {
+            var startTime = $("#earliest_time").val();
+            var endTime = $("#latest_time").val();
+            if (startTime != '' && endTime != ''){
+                if (startTime > endTime){
+                    alert('结束时间不可早于开始！');
+                    $("#latest_time").val('');
+                }
+            }
         });
 
         $('#latest_time').datetimepicker({
@@ -74,6 +83,15 @@
             startView: 2,
             minView: 2,
             forceParse: 0
+        }).on("changeDate",function () {
+            var startTime = $("#earliest_time").val();
+            var endTime = $("#latest_time").val();
+            if (startTime != '' && endTime != ''){
+                if (startTime > endTime){
+                    alert('结束时间不可早于开始！');
+                    $("#latest_time").val('');
+                }
+            }
         });
 
         // 点击查询
@@ -141,23 +159,27 @@
             var total = json.total; //总记录数
             var totalPage = json.totalPage; //总页数
             var pageElement = '';
-            //如果当前是第一页
-            if (curPage == 1) {
-                pageElement += '【首页】【上一页】';
-                pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
-                pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
-            } else if (curPage == totalPage) {
-                pageElement += '【<a href="javascript:jump(1)">首页</a>】';
-                pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
-                pageElement += '【下一页】【尾页】';
+            if (total == 0){
+                pageElement = '当前学生没有打卡记录！';
             } else {
-                pageElement += '【<a href="javascript:jump(1)">首页</a>】';
-                pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
-                pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
-                pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
+                //如果当前是第一页
+                if (curPage == 1) {
+                    pageElement += '【首页】【上一页】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
+                } else if (curPage == totalPage) {
+                    pageElement += '【<a href="javascript:jump(1)">首页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
+                    pageElement += '【下一页】【尾页】';
+                } else {
+                    pageElement += '【<a href="javascript:jump(1)">首页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
+                }
+                pageElement += "当前显示第" + curPage + "/" + totalPage + "页";
+                pageElement += "跳到<input type='text' id='cur_page' size=2/>页 <input type='button' id='save_btn' value='确定'/>";
             }
-            pageElement += "当前显示第" + curPage + "/" + totalPage + "页";
-            pageElement += "跳到<input type='text' id='cur_page' size=2/>页 <input type='button' id='save_btn' value='确定'/>";
             //把分页的HTML显示在pageBar标签里面
             $("#pageBar").html(pageElement);
             //为确定按钮绑定单击事件

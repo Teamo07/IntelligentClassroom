@@ -64,15 +64,10 @@
             startView: 2,
             minView: 2,
             forceParse: 0
-        }).on("changeDate",function () {
-            var startTime = $("#earliest_time").val();
-            var endTime = $("#latest_time").val();
-            if (startTime != '' && endTime != ''){
-                if (startTime > endTime){
-                    alert('结束时间不可早于开始！');
-                    $("#latest_time").val('');
-                }
-            }
+        }).on('changeDate',function(ev){
+            var starttime=$("#earliest_time").val();
+            $("#latest_time").datetimepicker('setStartDate',starttime);
+            $("#earliest_time").datetimepicker('hide');
         });
 
         $('#latest_time').datetimepicker({
@@ -83,16 +78,13 @@
             startView: 2,
             minView: 2,
             forceParse: 0
-        }).on("changeDate",function () {
-            var startTime = $("#earliest_time").val();
-            var endTime = $("#latest_time").val();
-            if (startTime != '' && endTime != ''){
-                if (startTime > endTime){
-                    alert('结束时间不可早于开始！');
-                    $("#latest_time").val('');
-                }
-            }
+        }).on('changeDate',function(ev){
+            var starttime=$("#earliest_time").val();
+            var endtime=$("#latest_time").val();
+            $("#earliest_time").datetimepicker('setEndDate',endtime);
+            $("#latest_time").datetimepicker('hide');
         });
+
 
         // 点击查询
         $('#search').on('click', function() {

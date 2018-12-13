@@ -8,7 +8,6 @@
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
     <script src="resources/js/request.js"></script>
     <script src="resources/js/bootstrap-datetimepicker.js"></script>
     <script src="resources/js/pager.js"></script>
@@ -64,15 +63,10 @@
             startView: 2,
             minView: 2,
             forceParse: 0
-        }).on("changeDate",function () {
-            var startTime = $("#earliest_time").val();
-            var endTime = $("#latest_time").val();
-            if (startTime != '' && endTime != ''){
-                if (startTime > endTime){
-                    alert('结束时间不可早于开始！');
-                    $("#latest_time").val('');
-                }
-            }
+        }).on('changeDate',function(ev){
+            var starttime=$("#earliest_time").val();
+            $("#latest_time").datetimepicker('setStartDate',starttime);
+            $("#earliest_time").datetimepicker('hide');
         });
 
         $('#latest_time').datetimepicker({
@@ -83,15 +77,11 @@
             startView: 2,
             minView: 2,
             forceParse: 0
-        }).on("changeDate",function () {
-            var startTime = $("#earliest_time").val();
-            var endTime = $("#latest_time").val();
-            if (startTime != '' && endTime != ''){
-                if (startTime > endTime){
-                    alert('结束时间不可早于开始！');
-                    $("#latest_time").val('');
-                }
-            }
+        }).on('changeDate',function(ev){
+            var starttime=$("#earliest_time").val();
+            var endtime=$("#latest_time").val();
+            $("#earliest_time").datetimepicker('setEndDate',endtime);
+            $("#latest_time").datetimepicker('hide');
         });
 
         // 点击查询

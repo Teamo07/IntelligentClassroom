@@ -2,7 +2,6 @@ package org.gec.smart.servlet;
 
 import com.alibaba.fastjson.JSON;
 import org.gec.smart.bean.AssetLog;
-import org.gec.smart.bean.Attendance;
 import org.gec.smart.bean.PageModel;
 import org.gec.smart.util.DbUtil;
 
@@ -63,8 +62,7 @@ public class GetAssetLogServlet extends HttpServlet {
      * @param rows 每页显示记录数
      * @return 返回一个分页对象
      */
-    private PageModel findAssetLog(String rfid, String startTime
-            , String endTime, int page, int rows) {
+    private PageModel findAssetLog(String rfid, String startTime, String endTime, int page, int rows) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -77,7 +75,7 @@ public class GetAssetLogServlet extends HttpServlet {
             sql.append(getSql(rfid, startTime, endTime));
             sql.append(" order by createtime desc ");
             sql.append(" limit " + start + ", " + rows);
-            System.out.println("sql : " + sql);
+            System.out.println("获取设备日志sql : " + sql);
             pstmt = conn.prepareStatement(sql.toString());
             rs = pstmt.executeQuery();
             List<AssetLog> list = new ArrayList<AssetLog>();
@@ -87,6 +85,7 @@ public class GetAssetLogServlet extends HttpServlet {
                 Boolean statu = rs.getBoolean("status");
                 Integer status = (statu == true ? 1:0);
                 list.add(new AssetLog(id, rfid, createtime, status));
+                System.out.println(createtime);
             }
             //查询总的结果数
             StringBuilder sql2 = new StringBuilder("select count(*) ");
@@ -119,7 +118,7 @@ public class GetAssetLogServlet extends HttpServlet {
      * @return
      */
     private String getSql(String rfid, String startTime, String endTime) {
-        StringBuilder sql = new StringBuilder(" from asset_log where rfid = '" + rfid + "'");
+        StringBuilder sql = new StringBuilder(" from asset_log  where rfid = '" + rfid + "'");
         List params = new ArrayList();
         if (startTime != null && !"".equals(startTime)) {
             sql.append(" and createtime >= '" + startTime + "'");

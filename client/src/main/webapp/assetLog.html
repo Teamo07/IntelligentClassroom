@@ -16,7 +16,7 @@
 </head>
 <body>
 <div style="text-align: center">
-    <h1>设备详情查询</h1>
+    <h1>设备状态查询</h1>
     <div>
         <div class="form-group" style="width: 160px; display: inline-block">
             <label for="earliest_time">最早时间:</label>
@@ -36,11 +36,11 @@
 </div>
 
 <div class="panel panel-default">
-    <table id="assetTab" class="table">
+    <table id="assetLogTab" class="table">
         <thead>
         <th>ID</th>
         <th>RFID</th>
-        <th>打卡时间</th>
+        <th>操作时间</th>
         <th>状态</th>
         </thead>
         <tbody id="tbody"></tbody>
@@ -64,6 +64,15 @@
             startView: 2,
             minView: 2,
             forceParse: 0
+        }).on("changeDate",function () {
+            var startTime = $("#earliest_time").val();
+            var endTime = $("#latest_time").val();
+            if (startTime != '' && endTime != ''){
+                if (startTime > endTime){
+                    alert('结束时间不可早于开始！');
+                    $("#latest_time").val('');
+                }
+            }
         });
 
         $('#latest_time').datetimepicker({
@@ -74,6 +83,15 @@
             startView: 2,
             minView: 2,
             forceParse: 0
+        }).on("changeDate",function () {
+            var startTime = $("#earliest_time").val();
+            var endTime = $("#latest_time").val();
+            if (startTime != '' && endTime != ''){
+                if (startTime > endTime){
+                    alert('结束时间不可早于开始！');
+                    $("#latest_time").val('');
+                }
+            }
         });
 
         // 点击查询
@@ -112,7 +130,7 @@
             'startTime': startTime,
             'endTime': endTime
         };
-        $.post('getAsset', params, function(json) { //data是封装了PageModel数据的json对象
+        $.post('getAssetLog', params, function(json) { //data是封装了PageModel数据的json对象
             console.log(json);
             res=json;
             var html = "";
@@ -120,11 +138,11 @@
             $.each(json.data, function(index, item) {  //idx代表遍历元素的下标，item代表遍历元素本身
                 html += `<tr><td>` + item.id + `</td>
 			<td>` + item.rfid + `</td>
-			<td>` + toDate(item.createtime) + `</td>
+			<td>` + toDate(item.createTime) + `</td>
 			<td>` + (item.status ? "可用" : "不可用") + `</td>
 			</tr>`;
             });
-            $('#assetTab').find('tbody[id=tbody]').html(html);
+            $('#assetLogTab').find('tbody[id=tbody]').html(html);
 
             //初始化分页栏
             gec.pager("eleId", {
@@ -141,23 +159,28 @@
             var total = json.total; //总记录数
             var totalPage = json.totalPage; //总页数
             var pageElement = '';
-            //如果当前是第一页
-            if (curPage == 1) {
-                pageElement += '【首页】【上一页】';
-                pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
-                pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
-            } else if (curPage == totalPage) {
-                pageElement += '【<a href="javascript:jump(1)">首页</a>】';
-                pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
-                pageElement += '【下一页】【尾页】';
+            if (total == 0){
+                pageElement+= '这个设备没有记录！';
             } else {
-                pageElement += '【<a href="javascript:jump(1)">首页</a>】';
-                pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
-                pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
-                pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
+                //如果当前是第一页
+                if (curPage == 1) {
+                    pageElement += '【首页】【上一页】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
+                } else if (curPage == totalPage) {
+                    pageElement += '【<a href="javascript:jump(1)">首页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
+                    pageElement += '【下一页】【尾页】';
+                } else {
+                    pageElement += '【<a href="javascript:jump(1)">首页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage - 1) + ')">上一页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + (curPage + 1) + ')">下一页</a>】';
+                    pageElement += '【<a href="javascript:jump(' + totalPage + ')">尾页</a>】';
+                }
+                pageElement += "当前显示第" + curPage + "/" + totalPage + "页";
+                pageElement += "  跳到<input type='text' id='cur_page' size=2/>页 <input type='button' id='save_btn' value='确定'/>";
             }
-            pageElement += "当前显示第" + curPage + "/" + totalPage + "页";
-            pageElement += "跳到<input type='text' id='cur_page' size=2/>页 <input type='button' id='save_btn' value='确定'/>";
+
             //把分页的HTML显示在pageBar标签里面
             $("#pageBar").html(pageElement);
             //为确定按钮绑定单击事件

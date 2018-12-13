@@ -1,6 +1,7 @@
 package org.gec.smart.servlet;
 
 import com.alibaba.fastjson.JSON;
+import org.gec.smart.bean.AssetLog;
 import org.gec.smart.bean.Attendance;
 import org.gec.smart.bean.PageModel;
 import org.gec.smart.util.DbUtil;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GetAttendanceServlet extends HttpServlet {
+public class GetAssetLogServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -43,7 +44,7 @@ public class GetAttendanceServlet extends HttpServlet {
             page = Integer.parseInt(req.getParameter("page"));
         }
         //根据参数执行查询
-        PageModel pageModel = findAttendance(rfid, startTime, endTime, page, rows);
+        PageModel pageModel = findAssetLog(rfid, startTime, endTime, page, rows);
 
         //把List集合转换成JSON格式字符串
         String json = JSON.toJSONString(pageModel);
@@ -62,7 +63,7 @@ public class GetAttendanceServlet extends HttpServlet {
      * @param rows 每页显示记录数
      * @return 返回一个分页对象
      */
-    private PageModel findAttendance(String rfid, String startTime
+    private PageModel findAssetLog(String rfid, String startTime
             , String endTime, int page, int rows) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -79,12 +80,13 @@ public class GetAttendanceServlet extends HttpServlet {
             System.out.println("sql : " + sql);
             pstmt = conn.prepareStatement(sql.toString());
             rs = pstmt.executeQuery();
-            List<Attendance> list = new ArrayList<Attendance>();
+            List<AssetLog> list = new ArrayList<AssetLog>();
             while (rs.next()) {
                 String id = rs.getString("id");
                 Date createtime = rs.getTimestamp("createtime");
-                boolean status = rs.getBoolean("status");
-                list.add(new Attendance(id, rfid, createtime, status));
+                Boolean statu = rs.getBoolean("status");
+                Integer status = (statu == true ? 1:0);
+                list.add(new AssetLog(id, rfid, createtime, status));
             }
             //查询总的结果数
             StringBuilder sql2 = new StringBuilder("select count(*) ");
@@ -117,7 +119,7 @@ public class GetAttendanceServlet extends HttpServlet {
      * @return
      */
     private String getSql(String rfid, String startTime, String endTime) {
-        StringBuilder sql = new StringBuilder(" from attendance where rfid = '" + rfid + "'");
+        StringBuilder sql = new StringBuilder(" from asset_log where rfid = '" + rfid + "'");
         List params = new ArrayList();
         if (startTime != null && !"".equals(startTime)) {
             sql.append(" and createtime >= '" + startTime + "'");
@@ -127,7 +129,4 @@ public class GetAttendanceServlet extends HttpServlet {
         }
         return sql.toString();
     }
-
-
-
 }

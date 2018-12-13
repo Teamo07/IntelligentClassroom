@@ -24,6 +24,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>GetAssetServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.GetAssetServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetAssetServlet</servlet-name>
+    <url-pattern>/getAsset</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>GetRfidServlet</servlet-name>
     <servlet-class>org.gec.smart.servlet.GetRfidServlet</servlet-class>
   </servlet>
@@ -42,12 +51,31 @@
   </servlet-mapping>
 
   <servlet>
+  <servlet-name>AddAssetServlet</servlet-name>
+  <servlet-class>org.gec.smart.servlet.AddAssetServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>AddAssetServlet</servlet-name>
+<url-pattern>/addAsset</url-pattern>
+</servlet-mapping>
+
+
+  <servlet>
     <servlet-name>GetAttendanceServlet</servlet-name>
     <servlet-class>org.gec.smart.servlet.GetAttendanceServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>GetAttendanceServlet</servlet-name>
     <url-pattern>/getAttendance</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>GetAssetLogServlet</servlet-name>
+    <servlet-class>org.gec.smart.servlet.GetAssetLogServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetAssetLogServlet</servlet-name>
+    <url-pattern>/getAssetLog</url-pattern>
   </servlet-mapping>
 
 

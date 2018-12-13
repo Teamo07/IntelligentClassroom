@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <title>学生考勤 - GEC©</title>
+    <title>设备进出 - GEC©</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
     <link href="resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" />
@@ -16,7 +16,7 @@
 </head>
 <body>
 <div style="text-align: center">
-    <h1>打卡详情查询</h1>
+    <h1>设备详情查询</h1>
     <div>
         <div class="form-group" style="width: 160px; display: inline-block">
             <label for="earliest_time">最早时间:</label>
@@ -88,7 +88,7 @@
 
         // 点击返回
         $('#goback').on('click', function() {
-            window.location.href = 'student.html';
+            window.location.href = 'asset.html';
         });
 
         // 点击首页
@@ -112,16 +112,16 @@
             'startTime': startTime,
             'endTime': endTime
         };
-        $.post('getAttendance', params, function(json) { //data是封装了PageModel数据的json对象
+        $.post('getAsset', params, function(json) { //data是封装了PageModel数据的json对象
             console.log(json);
             res=json;
             var html = "";
-            //获取考勤记录，并构建表格体的内容
+            //获取设备记录，并构建表格体的内容
             $.each(json.data, function(index, item) {  //idx代表遍历元素的下标，item代表遍历元素本身
                 html += `<tr><td>` + item.id + `</td>
 			<td>` + item.rfid + `</td>
 			<td>` + toDate(item.createtime) + `</td>
-			<td>` + (item.status ? "已签到" : "未签到") + `</td>
+			<td>` + (item.status ? "可用" : "不可用") + `</td>
 			</tr>`;
             });
             $('#assetTab').find('tbody[id=tbody]').html(html);
@@ -131,7 +131,7 @@
                 pageIndex: res.curPage,
                 pageSize: res.pageSize,
                 recordCount: res.total,
-                submitUrl: 'attendance.html?rfid=' + Request['rfid'] + '&page={0}'
+                submitUrl: 'assetLog.html?rfid=' + Request['rfid'] + '&page={0}'
             });
 
 
@@ -201,7 +201,7 @@
     }
 
     function jump(page){
-        location = "attendance.html?rfid=" + Request['rfid'] + '&page=' + page;
+        location = "assetLog.html?rfid=" + Request['rfid'] + '&page=' + page;
     }
 
     $(function() {

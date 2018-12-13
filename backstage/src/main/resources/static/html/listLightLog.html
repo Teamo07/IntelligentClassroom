@@ -21,7 +21,7 @@
                 {field: 'createtime', title: '操作时间', width: 180, align: 'center',
                     formatter: function (value, row, index) {
                         var d = new Date(value);
-                        return d.getFullYear() + "年" + d.getMonth()
+                        return d.getFullYear() + "年" + (d.getMonth()+1)
                             + "月" + d.getDate() + "日 " + d.getHours()
                             + ":" + d.getMinutes() + ":" + d.getSeconds();
                     }

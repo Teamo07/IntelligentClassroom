@@ -92,7 +92,7 @@ public class RefreshTask extends TimerTask {
 	
 	private void getData(){
 		try {
-			socket = new Socket(InetAddress.getByName("192.168.50.153"), 2018);
+			socket = new Socket(InetAddress.getByName("192.168.1.201"), 2018);
 			//FE 0C 05 05 AD 88 00 02 FD 00 F5 23
 			//socket = new Socket(InetAddress.getByName("127.0.0.1"), 2018);
 			dos = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));

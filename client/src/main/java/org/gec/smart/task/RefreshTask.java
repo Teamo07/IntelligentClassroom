@@ -66,7 +66,7 @@ public class RefreshTask extends TimerTask {
 		System.out.println("----------card服务端开启------------");
 		Socket sk = null;
 		try {
-			server = new ServerSocket(2018);
+			server = new ServerSocket(2019);
 			while (true) {
 				sk = server.accept();
 				new ServerSocketThread(sk).start();
@@ -92,9 +92,9 @@ public class RefreshTask extends TimerTask {
 	
 	private void getData(){
 		try {
-			//socket = new Socket(InetAddress.getByName("192.168.1.15"), 2017);
+			socket = new Socket(InetAddress.getByName("192.168.50.153"), 2018);
 			//FE 0C 05 05 AD 88 00 02 FD 00 F5 23
-			socket = new Socket(InetAddress.getByName("127.0.0.1"), 2017);
+			//socket = new Socket(InetAddress.getByName("127.0.0.1"), 2018);
 			dos = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 			

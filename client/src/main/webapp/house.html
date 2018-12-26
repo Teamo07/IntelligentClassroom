@@ -48,13 +48,13 @@
             //为每一个控制按钮绑定单击事件
             $(".control").on("click",function(){
                 var order = "";
-                if($(this).text().indexOf("灯光控制") != -1){
+                if($(this).text().indexOf("风扇控制") != -1){
                     if($(this).text().indexOf("关闭") != -1){
                         $(this).find(".val").text("打开");
-                        order = "FE 08 01 0C FF FF 01 XX"; //关闭灯光的指令
+                        order = "FE 08 01 09 FF FF 00 00 "; //关闭风扇的指令
                     } else {
                         $(this).find(".val").text("关闭");
-                        order = "FE 08 01 0C FF FF 00 XX"; //打开灯光的指令
+                        order = "FE 08 01 09 FF FF 01 01 "; //打开风扇的指令
                     }
                 }
                 if(order != ""){

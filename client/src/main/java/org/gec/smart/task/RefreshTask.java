@@ -133,11 +133,9 @@ public class RefreshTask extends TimerTask {
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		while(indexEF != -1){
-			System.out.println("indexEF ->"+data.indexOf("FE"));
 			int dataLen = Integer.valueOf(data.substring(indexEF + 2, indexEF + 4), 16) * 2;
-			System.out.println("length ->"+dataLen);
 			if(data.length() >= indexEF + dataLen){
 				String dataRec = data.substring(indexEF, indexEF + dataLen);
 				String device = dataRec.substring(4, 8);
@@ -155,7 +153,6 @@ public class RefreshTask extends TimerTask {
 					System.out.println("湿度：" + humidity + ", 温度：" + temperature);
 					map.put(device, humidity + "," + temperature);
 				}
-				System.out.println("dataRec ->" + dataRec);
 				data = data.substring(indexEF + dataLen);
 				indexEF = data.indexOf("FE");
 			} else {
